@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/analysis/bezos_concepts_explorer.html"
+    }
+  ]
+}
