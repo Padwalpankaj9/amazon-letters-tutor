@@ -15,8 +15,17 @@ wheels/
 .DS_Store
 .idea/
 
-# Local corpus, extracted text, eval outputs, and indexes
+# Local corpus outputs and indexes
 data/
+!data/
+!data/README.md
+!data/SOURCES.md
+!data/extracted/
+!data/extracted/*.md
+data/raw/
+data/db/
+data/evals/
+data/indexes/
 
 # Local visual QA screenshots
 analysis/*.png

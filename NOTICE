@@ -1,0 +1,10 @@
+Amazon Letters Tutor includes extracted Markdown copies of Amazon shareholder
+letters for study, retrieval, and citation-oriented analysis.
+
+The source letter text is credited to Amazon.com, Inc. and Jeffrey P. Bezos and
+was extracted from official Amazon-hosted shareholder letter PDFs listed in
+`data/SOURCES.md`.
+
+The MIT License in this repository applies to the software, tests, templates,
+and original analysis code. It does not claim ownership of Amazon's original
+shareholder letter text or any Amazon trademarks.
