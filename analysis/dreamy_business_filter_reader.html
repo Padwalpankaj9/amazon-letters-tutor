@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dreamy Business Filter — The Bezos Letters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:      #F3EFE6;
+      --panel:      #FBF9F3;
+      --panel-soft: #EEE9DC;
+      --ink:        #211B14;
+      --ink-soft:   #4B4338;
+      --muted:      #8B8273;
+      --line:       #E0D9C9;
+      --line-2:     #CDC4B0;
+      --accent:     #A1481F;
+      --accent-tint:#F1E6DA;
+      --accent-lite:#CC7E4E;
+      --cream:      #EDE7D9;
+      --cream-soft: #B9B0A0;
+      --cream-line: rgba(237, 231, 217, 0.16);
+      --radius:     0px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--paper); color: var(--ink);
+      font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+      font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .shell { position: relative; z-index: 1; min-height: 100vh; }
+    h1, h2, h3, h4 { font-family: "Newsreader", Georgia, serif; font-weight: 500; }
+    .serif { font-family: "Newsreader", Georgia, serif; }
+    a { color: inherit; }
+    button { font: inherit; color: inherit; }
+
+    /* ---------- Cover hero ---------- */
+    .hero { background: var(--ink); color: var(--cream); position: relative; overflow: hidden; }
+    .hero::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .hero-top { position: relative; z-index: 1; border-bottom: 1px solid var(--cream-line); }
+    .hero-top-inner {
+      max-width: 1080px; margin: 0 auto; padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-soft);
+    }
+    .hero-top-inner a { text-decoration: none; color: var(--cream); }
+    .hero-top-inner a:hover { color: #fff; }
+    .hero-top-inner .dot { color: var(--accent); }
+
+    .hero-main {
+      position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 58px 32px 56px;
+      display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr); gap: 48px; align-items: end;
+    }
+    .eyebrow {
+      margin: 0 0 18px; font-family: "Spline Sans Mono", monospace; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-soft);
+    }
+    .eyebrow::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 10px; vertical-align: 1px; background: var(--accent); }
+    h1 { margin: 0; max-width: 15ch; font-size: clamp(34px, 5vw, 62px); font-weight: 500; line-height: 1.0; letter-spacing: -0.02em; color: var(--cream); }
+    .hero-rule { width: 56px; height: 2px; margin: 24px 0 22px; background: var(--accent); }
+    .hero-copy { margin: 0; max-width: 56ch; color: var(--cream-soft); font-size: 17px; line-height: 1.6; }
+
+    .hero-aside { background: transparent; border: 1px solid var(--cream-line); padding: 24px 26px; color: var(--cream); }
+    .hero-aside h2 { margin: 0 0 18px; font-family: "Spline Sans Mono", monospace; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream-soft); }
+    .lens + .lens { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cream-line); }
+    .lens-label { display: block; margin-bottom: 6px; font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-lite); }
+    .lens p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--cream-soft); }
+    .hero-merges { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--cream-line); }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { padding: 5px 10px; border: 1px solid var(--cream-line); background: transparent; color: var(--cream-soft); font-size: 12px; line-height: 1.25; transition: border-color .16s ease, color .16s ease; }
+    .chip:hover { border-color: var(--accent-lite); color: var(--cream); }
+
+    /* ---------- Reading column (single, calm) ---------- */
+    .reading { max-width: 660px; margin: 0 auto; padding: 64px 28px 120px; }
+    .reading-lead {
+      margin: 0 0 12px; font-family: "Spline Sans Mono", monospace;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    }
+
+    .passage {
+      padding: 30px 0; border-top: 1px solid var(--line); cursor: pointer; outline: none;
+      transition: padding-left .2s ease;
+    }
+    .passage:first-of-type { border-top: 0; padding-top: 4px; }
+    .passage:hover, .passage:focus-visible { padding-left: 8px; }
+    .passage:focus-visible { box-shadow: -10px 0 0 -8px var(--accent); }
+    .p-meta { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+    .p-year { font-family: "Newsreader", serif; font-size: 22px; line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+    .p-pillar { font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); }
+    .p-title { margin: 0 0 18px; font-size: 26px; line-height: 1.15; letter-spacing: -0.015em; transition: color .16s ease; }
+    .passage:hover .p-title, .passage:focus-visible .p-title { color: var(--accent); }
+    .p-quote {
+      margin: 0 0 18px; padding-left: 20px; border-left: 2px solid var(--accent);
+      font-family: "Newsreader", serif; font-style: italic; font-size: 23px; line-height: 1.4; color: var(--ink);
+    }
+    .p-quote::before { content: "\201C"; }
+    .p-quote::after { content: "\201D"; }
+    .p-note { margin: 0; font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); }
+
+    /* shared bits used inside the focus reader */
+    .tag { padding: 4px 9px; border: 1px solid var(--line-2); font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.05em; color: var(--ink-soft); }
+    .passage-section { margin: 0 0 22px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .passage-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: 0; }
+    .passage-section-title { margin: 0 0 14px; font-family: "Spline Sans Mono", monospace; font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .page-marker { margin: 16px 0; font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .passage-error { margin: 0; font-family: "Hanken Grotesk", sans-serif; font-size: 15px; line-height: 1.55; color: var(--accent); }
+
+    /* ---------- Focus / reading overlay ---------- */
+    .focus-overlay { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; background: var(--paper); opacity: 0; visibility: hidden; transition: opacity .24s ease, visibility .24s ease; }
+    .focus-overlay::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.035; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+    .focus-overlay.is-open { opacity: 1; visibility: visible; }
+    .focus-progress { position: absolute; top: 0; left: 0; height: 2px; width: 0; background: var(--accent); z-index: 3; transition: width .1s linear; }
+    .focus-bar { position: relative; z-index: 2; border-bottom: 1px solid var(--line-2); background: rgba(243, 239, 230, 0.9); backdrop-filter: blur(8px) saturate(1.1); }
+    .focus-bar-inner { width: 100%; margin: 0; padding: 15px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .focus-meta { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+    .focus-year { flex: none; font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.1em; color: var(--accent); }
+    .focus-title { font-family: "Newsreader", serif; font-size: 18px; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .focus-actions { display: flex; align-items: center; gap: 10px; flex: none; }
+    .focus-counter { font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--muted); }
+    .focus-nav { display: flex; gap: 5px; }
+    .focus-nav button { width: 34px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line-2); background: transparent; cursor: pointer; color: var(--ink); font-size: 16px; line-height: 1; transition: border-color .16s ease, color .16s ease; }
+    .focus-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .focus-nav button:disabled { opacity: 0.32; cursor: default; }
+    .letter-toggle, .focus-close { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 13px; border: 1px solid var(--line-2); background: transparent; cursor: pointer; font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; transition: border-color .16s ease, background .16s ease, color .16s ease; }
+    .letter-toggle { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .letter-toggle:hover, .focus-overlay.letter-open .letter-toggle { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+    .focus-close:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .focus-close .x { font-size: 13px; line-height: 1; }
+    .focus-main {
+      --letter-width: 42vw;
+      position: relative; z-index: 1; flex: 1; min-height: 0;
+      display: grid; grid-template-columns: minmax(0, 1fr) 0 0;
+      transition: grid-template-columns .24s ease;
+    }
+    .focus-overlay.letter-open .focus-main { grid-template-columns: minmax(0, 1fr) 8px minmax(380px, var(--letter-width)); }
+    .focus-scroll { position: relative; min-width: 0; min-height: 0; overflow: auto; }
+    .focus-reader { max-width: 640px; margin: 0 auto; padding: 52px 28px 120px; }
+
+    .letter-resizer {
+      position: relative; min-width: 0; background: var(--line); cursor: col-resize;
+      opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility .2s ease;
+    }
+    .focus-overlay.letter-open .letter-resizer { opacity: 1; visibility: visible; }
+    .letter-resizer::before {
+      content: ""; position: absolute; top: 50%; left: 50%; width: 2px; height: 48px;
+      transform: translate(-50%, -50%); background: var(--line-2);
+    }
+    .letter-resizer:hover::before, .letter-resizer:focus-visible::before { background: var(--accent); }
+    body.resizing-letter { cursor: col-resize; user-select: none; }
+
+    .letter-pane {
+      min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+      background: var(--paper);
+      opacity: 0; visibility: hidden; transform: translateX(10px);
+      transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+    }
+    .focus-overlay.letter-open .letter-pane { opacity: 1; visibility: visible; transform: none; }
+    .letter-head {
+      flex: none; padding: 18px 20px 15px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    }
+    .letter-kicker {
+      display: block; margin-bottom: 6px; font-family: "Spline Sans Mono", monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    }
+    .letter-head h2 { margin: 0; font-size: 24px; line-height: 1.1; letter-spacing: -0.01em; }
+    .letter-close {
+      flex: none; width: 32px; height: 32px; display: grid; place-items: center;
+      border: 1px solid var(--line-2); background: transparent; cursor: pointer;
+      font-size: 15px; line-height: 1; transition: border-color .16s ease, background .16s ease, color .16s ease;
+    }
+    .letter-close:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .letter-body { flex: 1; overflow: auto; padding: 34px 30px 96px; }
+    .letter-status { margin: 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
+    .letter-document { max-width: 660px; margin: 0 auto; }
+    .letter-block { position: relative; margin: 0 0 22px; border-left: 3px solid transparent; }
+    .letter-block.is-target { margin-left: -18px; margin-right: -14px; padding: 7px 14px 7px 15px; border-left-color: var(--accent); background: var(--accent-tint); }
+    .letter-document p { font-family: "Newsreader", serif; font-size: 20px; line-height: 1.78; color: var(--ink); }
+    .letter-document ul { margin: 0 0 24px; padding-left: 28px; }
+    .letter-document li { margin: 0 0 12px; font-family: "Newsreader", serif; font-size: 20px; line-height: 1.72; color: var(--ink); }
+    .letter-document li::marker { color: var(--line-2); }
+    .letter-heading { font-family: "Newsreader", serif; font-size: 27px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); }
+    .letter-page, .letter-meta {
+      font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .letter-rule { height: 1px; margin: 30px 0; background: var(--line-2); }
+
+    .focus-quote {
+      margin: 0 0 38px; padding-left: 22px; border-left: 2px solid var(--accent);
+      font-family: "Newsreader", serif; font-style: italic; font-size: 26px; line-height: 1.4; color: var(--ink);
+    }
+    .focus-quote::before { content: "\201C"; }
+    .focus-quote::after { content: "\201D"; }
+
+    .focus-passage .passage-section-title { margin: 0 0 22px; font-size: 11px; }
+    .focus-passage p { margin: 0 0 22px; font-family: "Newsreader", serif; font-size: 21px; line-height: 1.8; color: var(--ink); }
+    .focus-passage ul { margin: 0 0 24px; padding-left: 26px; }
+    .focus-passage li { margin: 0 0 14px; font-family: "Newsreader", serif; font-size: 21px; line-height: 1.75; color: var(--ink); }
+    .focus-passage li::marker { color: var(--line-2); }
+    .focus-passage .page-marker { margin: 24px 0; }
+    .focus-passage .passage-section { border-bottom-color: var(--line); margin-bottom: 32px; padding-bottom: 28px; }
+
+    .focus-notes { margin-top: 8px; padding-top: 40px; border-top: 1px solid var(--line-2); display: grid; gap: 26px; }
+    .focus-notes .source-ref { font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted); }
+    .focus-notes .source-ref a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+    .focus-notes .source-ref a:hover { color: var(--accent); border-color: var(--accent); }
+    .f-label { display: block; margin-bottom: 8px; font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .f-note p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--ink-soft); }
+    .f-takeaway { padding: 16px 18px; border: 1px solid var(--line-2); border-left: 3px solid var(--accent); background: var(--accent-tint); }
+    .f-takeaway .f-label { color: var(--accent); }
+    .f-takeaway p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+    .f-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+    body.focus-open { overflow: hidden; }
+
+    /* ---------- Reveal ---------- */
+    @keyframes riseIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .reveal { animation: riseIn .55s cubic-bezier(.2,.7,.2,1) both; }
+    @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } html { scroll-behavior: auto; } .focus-overlay, .focus-progress, .passage { transition: none; } }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 860px) { .hero-main { grid-template-columns: 1fr; gap: 32px; } }
+    @media (max-width: 900px) {
+      .focus-main { display: block; overflow: hidden; }
+      .focus-scroll { height: 100%; }
+      .letter-resizer { display: none; }
+      .letter-pane { position: absolute; inset: 0; z-index: 2; border-left: 0; transform: translateX(100%); }
+      .focus-overlay.letter-open .letter-pane { transform: none; }
+    }
+    @media (max-width: 600px) {
+      .hero-top-inner { padding: 12px 18px; }
+      .hero-main { padding: 40px 18px 36px; }
+      .reading { padding: 44px 20px 90px; }
+      .p-title { font-size: 23px; }
+      .p-quote { font-size: 20px; }
+      .focus-bar-inner { padding: 13px 18px; }
+      .focus-actions { gap: 7px; }
+      .focus-title { font-size: 16px; white-space: normal; }
+      .focus-counter { display: none; }
+      .letter-toggle { max-width: 132px; padding: 0 10px; overflow: hidden; text-overflow: ellipsis; }
+      .focus-reader { padding: 40px 20px 90px; }
+      .focus-quote { font-size: 22px; }
+      .focus-passage p, .focus-passage li { font-size: 19px; line-height: 1.75; }
+      .letter-head { padding: 16px 16px 14px; }
+      .letter-body { padding: 28px 20px 78px; }
+      .letter-document p, .letter-document li { font-size: 19px; line-height: 1.72; }
+      .letter-block.is-target { margin-left: -12px; margin-right: -8px; padding: 6px 8px 6px 9px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell" id="top">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="hero-top-inner">
+          <a href="bezos_concepts_explorer.html">&larr; Ideas Hub</a>
+          <span>Deep Dive <span class="dot">&middot;</span> Business model and capital</span>
+        </div>
+      </div>
+      <div class="hero-main">
+        <div class="reveal">
+          <p class="eyebrow">Business model and capital</p>
+          <h1>Dreamy Business Filter</h1>
+          <div class="hero-rule"></div>
+          <p class="hero-copy">Look for opportunities customers love, that can become huge, earn strong returns, and last for decades.</p>
+        </div>
+        <aside class="hero-aside reveal">
+          <h2>How To Use This Idea</h2>
+          <div class="lens"><span class="lens-label">Life</span><p>Use it to evaluate career or project opportunities: loved, large, economically strong, and durable.</p></div>
+          <div class="lens"><span class="lens-label">Business</span><p>Use it as a compact screen for exceptional business models and long-term capital allocation.</p></div>
+          <div class="hero-merges"><span class="lens-label">Merges</span><div class="chips" id="childChips"></div></div>
+        </aside>
+      </div>
+    </header>
+
+    <main class="reading">
+      <p class="reading-lead" id="readingLead"></p>
+      <div id="cards"></div>
+    </main>
+  </div>
+
+  <div class="focus-overlay" id="focusOverlay" role="dialog" aria-modal="true" aria-label="Passage reading mode">
+    <div class="focus-progress" id="focusProgress"></div>
+    <div class="focus-bar">
+      <div class="focus-bar-inner">
+        <div class="focus-meta">
+          <span class="focus-year" id="focusYear"></span>
+          <span class="focus-title" id="focusTitle"></span>
+        </div>
+        <div class="focus-actions">
+          <span class="focus-counter" id="focusCounter"></span>
+          <div class="focus-nav">
+            <button type="button" id="focusPrev" aria-label="Previous passage">&lsaquo;</button>
+            <button type="button" id="focusNext" aria-label="Next passage">&rsaquo;</button>
+          </div>
+          <button type="button" class="letter-toggle" id="letterToggle" aria-expanded="false" aria-controls="letterPane">Read In Letter</button>
+          <button type="button" class="focus-close" id="focusClose"><span class="x">&#10005;</span> Close <span aria-hidden="true">&middot; Esc</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="focus-main" id="focusMain">
+      <div class="focus-scroll" id="focusScroll">
+        <article class="focus-reader" id="focusReader"></article>
+      </div>
+      <div class="letter-resizer" id="letterResizer" role="separator" aria-label="Resize full letter context" aria-orientation="vertical" tabindex="0"></div>
+      <aside class="letter-pane" id="letterPane" aria-label="Full letter context" aria-hidden="true">
+        <div class="letter-head">
+          <div>
+            <span class="letter-kicker" id="letterKicker"></span>
+            <h2 id="letterTitle">Letter Context</h2>
+          </div>
+          <button type="button" class="letter-close" id="letterClose" aria-label="Close full letter context">&#10005;</button>
+        </div>
+        <div class="letter-body" id="letterBody"></div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const DATA = {
+    "idea": {
+        "file": "dreamy_business_filter_reader.html",
+        "title": "Dreamy Business Filter",
+        "kicker": "Business model and capital",
+        "thesis": "Look for opportunities customers love, that can become huge, earn strong returns, and last for decades.",
+        "life": "Use it to evaluate career or project opportunities: loved, large, economically strong, and durable.",
+        "business": "Use it as a compact screen for exceptional business models and long-term capital allocation.",
+        "children": [
+            "Dreamy business offering",
+            "Market-size unconstrained",
+            "Enduring franchise",
+            "Market leadership logic"
+        ]
+    },
+    "passages": [
+        {
+            "year": 2014,
+            "pillar": "filter",
+            "title": "The four characteristics",
+            "source": "../data/extracted/2014.md",
+            "range": "lines 11-35",
+            "lineRanges": [
+                [
+                    11,
+                    35
+                ]
+            ],
+            "quote": "Customers love it",
+            "why": "Bezos gives a compact test: customers love it, it can get very large, it has strong returns on capital, and it can endure for decades.",
+            "support": "Marketplace, Prime, and AWS are named as the three examples.",
+            "takeaway": "A dreamy business is loved, large, profitable, and durable.",
+            "tags": [
+                "filter",
+                "durability",
+                "returns"
+            ]
+        },
+        {
+            "year": 2014,
+            "pillar": "marketplace",
+            "title": "Marketplace survives early misses",
+            "source": "../data/extracted/2014.md",
+            "range": "lines 37-65",
+            "lineRanges": [
+                [
+                    37,
+                    65
+                ]
+            ],
+            "quote": "no customers",
+            "why": "Marketplace emerged after Auctions and zShops missed. The eventual model integrated third-party sellers into customer detail pages.",
+            "support": "The flywheel passage shows why Marketplace became a dreamy business rather than just another category.",
+            "takeaway": "A great business may be found through failed versions before the right mechanism appears.",
+            "tags": [
+                "marketplace",
+                "flywheel",
+                "iteration"
+            ]
+        },
+        {
+            "year": 2014,
+            "pillar": "prime",
+            "title": "Prime builds from owned retail",
+            "source": "../data/extracted/2014.md",
+            "range": "lines 117-155",
+            "lineRanges": [
+                [
+                    117,
+                    155
+                ]
+            ],
+            "quote": "foundation of Prime",
+            "why": "Prime depends on fulfillment, inventory systems, pricing, delivery promises, and selection.",
+            "support": "This passage shows the operational foundation behind a beloved customer offering.",
+            "takeaway": "A dreamy offering often needs deep infrastructure before it feels simple.",
+            "tags": [
+                "prime",
+                "infrastructure",
+                "fulfillment"
+            ]
+        },
+        {
+            "year": 2014,
+            "pillar": "flywheel",
+            "title": "FBA deepens Prime and Marketplace",
+            "source": "../data/extracted/2014.md",
+            "range": "lines 211-245",
+            "lineRanges": [
+                [
+                    211,
+                    245
+                ]
+            ],
+            "quote": "Prime pumps energy into Marketplace",
+            "why": "FBA links Prime and Marketplace so seller participation increases Prime value and Prime increases seller sales.",
+            "support": "This is one reason the business can remain durable: the parts make each other stronger.",
+            "takeaway": "Durability improves when a business is a reinforcing system, not a standalone feature.",
+            "tags": [
+                "FBA",
+                "system",
+                "durability"
+            ]
+        },
+        {
+            "year": 2014,
+            "pillar": "AWS",
+            "title": "AWS fits the dreamy filter",
+            "source": "../data/extracted/2014.md",
+            "range": "lines 333-377",
+            "lineRanges": [
+                [
+                    333,
+                    377
+                ]
+            ],
+            "quote": "one of those dreamy business offerings",
+            "why": "Bezos applies the dreamy-business frame to AWS, emphasizing customer value, large market size, and capital returns.",
+            "support": "The passage also discusses market-size unconstrained and leadership advantages.",
+            "takeaway": "A dreamy business can be technical and complex if the customer value and economics are strong.",
+            "tags": [
+                "AWS",
+                "market size",
+                "capital returns"
+            ]
+        },
+        {
+            "year": 2014,
+            "pillar": "search",
+            "title": "Keep looking for the next one",
+            "source": "../data/extracted/2014.md",
+            "range": "lines 435-447",
+            "lineRanges": [
+                [
+                    435,
+                    447
+                ]
+            ],
+            "quote": "a fourth such idea",
+            "why": "Bezos closes by saying Amazon will keep searching for a fourth big idea while nurturing the first three.",
+            "support": "This keeps the dreamy filter from becoming backward-looking nostalgia.",
+            "takeaway": "The filter is a live search tool, not only a way to explain past winners.",
+            "tags": [
+                "capital allocation",
+                "search",
+                "day 1"
+            ]
+        }
+    ]
+};
+    const passages = DATA.passages;
+
+    const cardsEl = document.getElementById("cards");
+    const childChips = document.getElementById("childChips");
+    const readingLead = document.getElementById("readingLead");
+
+    const overlay = document.getElementById("focusOverlay");
+    const focusReader = document.getElementById("focusReader");
+    const focusScroll = document.getElementById("focusScroll");
+    const focusProgress = document.getElementById("focusProgress");
+    const focusYear = document.getElementById("focusYear");
+    const focusTitle = document.getElementById("focusTitle");
+    const focusCounter = document.getElementById("focusCounter");
+    const focusClose = document.getElementById("focusClose");
+    const focusPrev = document.getElementById("focusPrev");
+    const focusNext = document.getElementById("focusNext");
+    const focusMain = document.getElementById("focusMain");
+    const letterToggle = document.getElementById("letterToggle");
+    const letterPane = document.getElementById("letterPane");
+    const letterResizer = document.getElementById("letterResizer");
+    const letterKicker = document.getElementById("letterKicker");
+    const letterTitle = document.getElementById("letterTitle");
+    const letterClose = document.getElementById("letterClose");
+    const letterBody = document.getElementById("letterBody");
+    let focusIndex = 0;
+    let focusToken = 0;
+    let letterToken = 0;
+
+    const mdCache = {};
+    const htmlCache = {};
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+    function sourceName(path) { return path.split("/").pop(); }
+    function endsBlock(line) { return /[.!?:]$/.test(line) || /[.!?][”"]$/.test(line); }
+
+    function formatPassageLines(rawLines) {
+      const blocks = [];
+      let paragraph = [], listItems = [], listItem = [];
+      function flushParagraph() { if (paragraph.length) { blocks.push({ type: "p", text: paragraph.join(" ") }); paragraph = []; } }
+      function flushListItem() { if (listItem.length) { listItems.push(listItem.join(" ")); listItem = []; } }
+      function flushList() { flushListItem(); if (listItems.length) { blocks.push({ type: "ul", items: listItems }); listItems = []; } }
+      rawLines.forEach((line) => {
+        const text = line.trim();
+        if (!text) return;
+        if (/^\[Page \d+\]$/.test(text)) { flushParagraph(); flushList(); blocks.push({ type: "page", text }); return; }
+        const bulletMatch = /^([•*-])\s*(.+)/.exec(text);
+        if (bulletMatch) { flushParagraph(); flushListItem(); listItem = [bulletMatch[2]]; return; }
+        if (listItem.length) { listItem.push(text); if (endsBlock(text)) flushListItem(); return; }
+        paragraph.push(text);
+        if (endsBlock(text)) flushParagraph();
+      });
+      flushParagraph(); flushList();
+      return blocks.map((block) => {
+        if (block.type === "page") return `<div class="page-marker">${escapeHtml(block.text)}</div>`;
+        if (block.type === "ul") return `<ul>${block.items.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
+        return `<p>${escapeHtml(block.text)}</p>`;
+      }).join("");
+    }
+
+    function renderPassage(markdown, lineRanges) {
+      const lines = markdown.split(/\r?\n/);
+      return lineRanges.map(([start, end]) => {
+        const rangeLines = lines.slice(start - 1, end);
+        return `<section class="passage-section"><h4 class="passage-section-title">Lines ${start}-${end}</h4>${formatPassageLines(rangeLines)}</section>`;
+      }).join("");
+    }
+
+    function isInRanges(lineNumber, lineRanges) {
+      return lineRanges.some(([start, end]) => lineNumber >= start && lineNumber <= end);
+    }
+
+    function firstRangeLine(lineRanges) {
+      return Math.min(...lineRanges.map(([start]) => start));
+    }
+
+    function rangesOverlap(start, end, lineRanges) {
+      return lineRanges.some(([rangeStart, rangeEnd]) => end >= rangeStart && start <= rangeEnd);
+    }
+
+    function blockClasses(block, lineRanges) {
+      const classes = ["letter-block", `letter-${block.type}`];
+      if (rangesOverlap(block.start, block.end, lineRanges)) classes.push("is-target");
+      return classes.join(" ");
+    }
+
+    function renderLetterBlocks(markdown) {
+      const blocks = [];
+      const lines = markdown.split(/\r?\n/);
+      let paragraph = [], paragraphStart = 0, paragraphEnd = 0;
+      let listItems = [], listItem = [], listStart = 0, listEnd = 0;
+
+      function flushParagraph() {
+        if (!paragraph.length) return;
+        blocks.push({ type: "paragraph", text: paragraph.join(" "), start: paragraphStart, end: paragraphEnd });
+        paragraph = []; paragraphStart = 0; paragraphEnd = 0;
+      }
+      function flushListItem() {
+        if (!listItem.length) return;
+        listItems.push(listItem.join(" "));
+        listItem = [];
+      }
+      function flushList() {
+        flushListItem();
+        if (!listItems.length) return;
+        blocks.push({ type: "list", items: listItems, start: listStart, end: listEnd });
+        listItems = []; listStart = 0; listEnd = 0;
+      }
+      function startParagraph(text, lineNumber) {
+        if (!paragraph.length) paragraphStart = lineNumber;
+        paragraph.push(text);
+        paragraphEnd = lineNumber;
+      }
+
+      lines.forEach((line, index) => {
+        const lineNumber = index + 1;
+        const text = line.trim();
+        if (!text) return;
+        if (/^(\*\s*){2,}$/.test(text)) {
+          flushParagraph(); flushList();
+          blocks.push({ type: "rule", start: lineNumber, end: lineNumber });
+          return;
+        }
+        if (/^#\s+/.test(text)) {
+          flushParagraph(); flushList();
+          blocks.push({ type: "heading", text: text.replace(/^#\s+/, ""), start: lineNumber, end: lineNumber });
+          return;
+        }
+        if (/^\[Page \d+\]$/.test(text)) {
+          flushParagraph(); flushList();
+          blocks.push({ type: "page", text, start: lineNumber, end: lineNumber });
+          return;
+        }
+        if (/^(Author|Source):/.test(text)) {
+          flushParagraph(); flushList();
+          blocks.push({ type: "meta", text, start: lineNumber, end: lineNumber });
+          return;
+        }
+        const bulletMatch = /^([\u2022*-])\s*(.+)/.exec(text);
+        if (bulletMatch) {
+          flushParagraph(); flushListItem();
+          if (!listItems.length) listStart = lineNumber;
+          listItem = [bulletMatch[2]];
+          listEnd = lineNumber;
+          return;
+        }
+        if (listItem.length) {
+          listItem.push(text);
+          listEnd = lineNumber;
+          if (endsBlock(text)) flushListItem();
+          return;
+        }
+        if (listItems.length) flushList();
+        startParagraph(text, lineNumber);
+        if (endsBlock(text)) flushParagraph();
+      });
+
+      flushParagraph(); flushList();
+      return blocks;
+    }
+
+    function renderFullLetter(markdown, lineRanges) {
+      const blocks = renderLetterBlocks(markdown);
+      const html = blocks.map((block) => {
+        const attrs = `class="${blockClasses(block, lineRanges)}" data-line-start="${block.start}" data-line-end="${block.end}"`;
+        if (block.type === "heading") return `<h3 ${attrs}>${escapeHtml(block.text)}</h3>`;
+        if (block.type === "page") return `<div ${attrs}>${escapeHtml(block.text)}</div>`;
+        if (block.type === "meta") return `<p ${attrs}>${escapeHtml(block.text)}</p>`;
+        if (block.type === "rule") return `<div ${attrs}></div>`;
+        if (block.type === "list") return `<ul ${attrs}>${block.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+        return `<p ${attrs}>${escapeHtml(block.text)}</p>`;
+      }).join("");
+      return `<div class="letter-document">${html}</div>`;
+    }
+
+    function scrollLetterToRange(item) {
+      const target = letterBody.querySelector(".letter-block.is-target");
+      if (!target) return;
+      const bodyRect = letterBody.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const top = letterBody.scrollTop + targetRect.top - bodyRect.top - Math.round(letterBody.clientHeight * 0.18);
+      letterBody.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+    }
+
+    function queueLetterScroll(item, token) {
+      requestAnimationFrame(() => {
+        if (token === letterToken) scrollLetterToRange(item);
+        window.setTimeout(() => {
+          if (token === letterToken) scrollLetterToRange(item);
+        }, 320);
+      });
+    }
+
+    function fetchMarkdown(source) {
+      if (mdCache[source]) return mdCache[source];
+      mdCache[source] = (async () => {
+        const response = await fetch(source);
+        if (!response.ok) throw new Error("Unable to load source");
+        return response.text();
+      })();
+      return mdCache[source];
+    }
+
+    function getPassageHtml(index) {
+      if (htmlCache[index]) return htmlCache[index];
+      htmlCache[index] = (async () => {
+        const item = passages[index];
+        try {
+          const markdown = await fetchMarkdown(item.source);
+          return renderPassage(markdown, item.lineRanges);
+        } catch (error) {
+          return `<p class="passage-error">Could not load the local source text from this browser context. Open this page through the local project server instead of opening the raw file directly.</p>`;
+        }
+      })();
+      return htmlCache[index];
+    }
+
+    async function openLetterContext() {
+      const item = passages[focusIndex];
+      if (!item) return;
+      const token = ++letterToken;
+      overlay.classList.add("letter-open");
+      letterPane.setAttribute("aria-hidden", "false");
+      letterToggle.setAttribute("aria-expanded", "true");
+      letterKicker.textContent = `${item.year} letter · ${item.range}`;
+      letterTitle.textContent = `${item.year} Amazon Letter`;
+      letterBody.innerHTML = `<p class="letter-status">Loading the full source letter&hellip;</p>`;
+      try {
+        const markdown = await fetchMarkdown(item.source);
+        if (token !== letterToken) return;
+        letterBody.scrollTop = 0;
+        letterBody.innerHTML = renderFullLetter(markdown, item.lineRanges);
+        queueLetterScroll(item, token);
+      } catch (error) {
+        if (token !== letterToken) return;
+        letterBody.innerHTML = `<p class="letter-status">Could not load the full letter from this browser context. Open this page through the local project server instead of the raw file.</p>`;
+      }
+    }
+
+    function closeLetterContext() {
+      letterToken += 1;
+      overlay.classList.remove("letter-open");
+      letterPane.setAttribute("aria-hidden", "true");
+      letterToggle.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleLetterContext() {
+      if (overlay.classList.contains("letter-open")) closeLetterContext();
+      else openLetterContext();
+    }
+
+    function clampLetterWidth(width) {
+      const rect = focusMain.getBoundingClientRect();
+      const min = 380;
+      const max = Math.max(min, rect.width - 440);
+      return Math.min(max, Math.max(min, width));
+    }
+
+    function setLetterWidth(width) {
+      focusMain.style.setProperty("--letter-width", `${Math.round(clampLetterWidth(width))}px`);
+    }
+
+    function resizeLetterFromClientX(clientX) {
+      const rect = focusMain.getBoundingClientRect();
+      setLetterWidth(rect.right - clientX);
+    }
+
+    function keepCurrentLetterAnchorVisible() {
+      const item = passages[focusIndex];
+      if (item && overlay.classList.contains("letter-open")) queueLetterScroll(item, letterToken);
+    }
+
+    function cardMarkup(item, index) {
+      return `
+        <article class="passage" data-index="${index}" tabindex="0" role="button" aria-label="Read ${escapeHtml(item.title)} in focus mode">
+          <div class="p-meta"><span class="p-year">${item.year}</span><span class="p-pillar">${escapeHtml(item.pillar)}</span></div>
+          <h2 class="p-title">${escapeHtml(item.title)}</h2>
+          <blockquote class="p-quote">${escapeHtml(item.quote)}</blockquote>
+          <p class="p-note">${escapeHtml(item.why)}</p>
+        </article>`;
+    }
+
+    /* ---------- Focus reading mode ---------- */
+    async function renderFocus() {
+      const item = passages[focusIndex];
+      if (!item) return;
+      const token = ++focusToken;
+      focusYear.textContent = item.year;
+      focusTitle.textContent = item.title;
+      focusCounter.textContent = `${String(focusIndex + 1).padStart(2, "0")} / ${String(passages.length).padStart(2, "0")}`;
+      focusPrev.disabled = focusIndex <= 0;
+      focusNext.disabled = focusIndex >= passages.length - 1;
+      const tags = item.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+      focusReader.innerHTML = `
+        <blockquote class="focus-quote">${escapeHtml(item.quote)}</blockquote>
+        <div class="focus-passage" id="focusPassage"><p class="passage-error" style="color:var(--muted)">Loading exact passage&hellip;</p></div>
+        <div class="focus-notes">
+          <p class="source-ref">Source &middot; <a href="${escapeHtml(item.source)}">${sourceName(item.source)}</a> &middot; ${escapeHtml(item.range)}</p>
+          <div class="f-note"><span class="f-label">Why it matters</span><p>${escapeHtml(item.why)}</p></div>
+          <div class="f-note"><span class="f-label">What to notice</span><p>${escapeHtml(item.support)}</p></div>
+          <div class="f-takeaway"><span class="f-label">Main takeaway</span><p>${escapeHtml(item.takeaway)}</p></div>
+          <div class="f-tags">${tags}</div>
+        </div>`;
+      focusScroll.scrollTop = 0;
+      focusProgress.style.width = "0%";
+      const html = await getPassageHtml(focusIndex);
+      if (token === focusToken) {
+        const el = focusReader.querySelector("#focusPassage");
+        if (el) el.innerHTML = html;
+        if (overlay.classList.contains("letter-open")) openLetterContext();
+      }
+    }
+    function openFocus(index) {
+      focusIndex = index;
+      closeLetterContext();
+      renderFocus();
+      overlay.classList.add("is-open");
+      document.body.classList.add("focus-open");
+      focusClose.focus();
+    }
+    function closeFocus() {
+      closeLetterContext();
+      overlay.classList.remove("is-open");
+      document.body.classList.remove("focus-open");
+    }
+    function stepFocus(delta) {
+      const next = focusIndex + delta;
+      if (next < 0 || next >= passages.length) return;
+      focusIndex = next;
+      renderFocus();
+    }
+
+    focusClose.addEventListener("click", closeFocus);
+    letterToggle.addEventListener("click", toggleLetterContext);
+    letterClose.addEventListener("click", closeLetterContext);
+    letterResizer.addEventListener("pointerdown", (event) => {
+      if (!overlay.classList.contains("letter-open") || window.innerWidth <= 900) return;
+      event.preventDefault();
+      document.body.classList.add("resizing-letter");
+      resizeLetterFromClientX(event.clientX);
+
+      function onMove(moveEvent) { resizeLetterFromClientX(moveEvent.clientX); }
+      function onUp() {
+        document.body.classList.remove("resizing-letter");
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerup", onUp);
+        keepCurrentLetterAnchorVisible();
+      }
+
+      document.addEventListener("pointermove", onMove);
+      document.addEventListener("pointerup", onUp);
+    });
+    letterResizer.addEventListener("keydown", (event) => {
+      if (!overlay.classList.contains("letter-open") || window.innerWidth <= 900) return;
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const currentWidth = letterPane.getBoundingClientRect().width;
+      const delta = event.key === "ArrowLeft" ? 40 : -40;
+      setLetterWidth(currentWidth + delta);
+      keepCurrentLetterAnchorVisible();
+    });
+    focusPrev.addEventListener("click", () => stepFocus(-1));
+    focusNext.addEventListener("click", () => stepFocus(1));
+    focusScroll.addEventListener("scroll", () => {
+      const max = focusScroll.scrollHeight - focusScroll.clientHeight;
+      focusProgress.style.width = `${max > 0 ? (focusScroll.scrollTop / max) * 100 : 0}%`;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (!overlay.classList.contains("is-open")) return;
+      if (event.key === "Escape") {
+        if (overlay.classList.contains("letter-open")) closeLetterContext();
+        else closeFocus();
+      }
+      else if (event.key === "ArrowLeft") stepFocus(-1);
+      else if (event.key === "ArrowRight") stepFocus(1);
+    });
+
+    function init() {
+      childChips.innerHTML = DATA.idea.children.map((child) => `<span class="chip">${escapeHtml(child)}</span>`).join("");
+      const years = passages.map((p) => p.year);
+      const span = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : "";
+      readingLead.textContent = `${passages.length} passages · ${span}`;
+      cardsEl.innerHTML = passages.map((item, index) => cardMarkup(item, index)).join("");
+
+      cardsEl.querySelectorAll(".passage").forEach((el) => {
+        const idx = Number(el.dataset.index);
+        el.addEventListener("click", () => openFocus(idx));
+        el.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openFocus(idx); }
+        });
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

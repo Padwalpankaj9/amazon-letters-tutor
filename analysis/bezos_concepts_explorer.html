@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Bezos Letters — Ideas Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Warm paper-and-ink archive palette */
+      --paper:      #F3EFE6;
+      --panel:      #FBF9F3;
+      --panel-soft: #EEE9DC;
+      --ink:        #211B14;
+      --ink-soft:   #4B4338;
+      --muted:      #8B8273;
+      --line:       #E0D9C9;
+      --line-2:     #CDC4B0;
+      --accent:     #A1481F;  /* burnt sienna — the one accent */
+      --accent-tint:#F1E6DA;
+      --radius:     0px;
+      --maxw:       1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .app { position: relative; z-index: 1; min-height: 100vh; }
+
+    h1, h2, h3 { font-family: "Newsreader", Georgia, serif; font-weight: 500; }
+    .serif { font-family: "Newsreader", Georgia, serif; }
+    .mono  { font-family: "Spline Sans Mono", ui-monospace, monospace; }
+
+    button, input { font: inherit; color: inherit; }
+    a { color: inherit; }
+
+    /* ---------- Top bar ---------- */
+    .topbar {
+      position: sticky; top: 0; z-index: 30;
+      background: rgba(243, 239, 230, 0.86);
+      backdrop-filter: blur(12px) saturate(1.1);
+      border-bottom: 1px solid var(--line-2);
+    }
+    .topbar-inner {
+      max-width: var(--maxw); margin: 0 auto;
+      padding: 13px 28px;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; justify-self: start; }
+    .brand-mark {
+      flex: none; width: 38px; height: 38px;
+      display: grid; place-items: center;
+      background: var(--ink); color: var(--paper);
+      font-family: "Newsreader", serif; font-style: italic; font-size: 22px; line-height: 1;
+      position: relative;
+    }
+    .brand-mark::after {
+      content: ""; position: absolute; right: 5px; bottom: 5px;
+      width: 4px; height: 4px; border-radius: 50%; background: var(--accent);
+    }
+    .brand-name { font-family: "Newsreader", serif; font-size: 17px; letter-spacing: -0.01em; white-space: nowrap; }
+
+    .views { display: flex; gap: 2px; justify-self: center; }
+    .view-tab {
+      position: relative;
+      padding: 9px 13px; border: 0; background: transparent; cursor: pointer;
+      font-family: "Spline Sans Mono", monospace;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+      transition: color .16s ease;
+    }
+    .view-tab:hover { color: var(--ink); }
+    .view-tab.active { color: var(--ink); }
+    .view-tab.active::after {
+      content: ""; position: absolute; left: 13px; right: 13px; bottom: 1px; height: 2px; background: var(--accent);
+    }
+
+    .top-actions { display: flex; align-items: center; gap: 10px; justify-self: end; }
+    .search { position: relative; }
+    .search input {
+      width: 210px; height: 40px;
+      border: 1px solid var(--line-2); border-radius: var(--radius);
+      padding: 0 14px 0 38px; background: var(--panel); outline: none; font-size: 13.5px;
+      transition: width .2s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .search input::placeholder { color: var(--muted); }
+    .search input:focus { width: 260px; border-color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); }
+    .search-ico { position: absolute; left: 13px; top: 50%; width: 12px; height: 12px; transform: translateY(-50%); pointer-events: none; }
+    .search-ico::before { content: ""; position: absolute; left: 0; top: 0; width: 9px; height: 9px; border: 1.6px solid var(--muted); border-radius: 50%; }
+    .search-ico::after { content: ""; position: absolute; right: 0; bottom: 0; width: 6px; height: 1.6px; background: var(--muted); transform: rotate(45deg); transform-origin: right center; }
+
+    .filter-toggle {
+      height: 40px; padding: 0 14px;
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--line-2); background: transparent; cursor: pointer;
+      font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: border-color .16s ease, background .16s ease, color .16s ease;
+    }
+    .filter-toggle:hover { border-color: var(--ink); }
+    .filter-toggle.is-on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .filter-badge {
+      min-width: 18px; height: 18px; padding: 0 5px;
+      display: inline-grid; place-items: center;
+      background: var(--accent); color: var(--paper); border-radius: 999px;
+      font-size: 10px; letter-spacing: 0;
+    }
+    .filter-toggle:not(.has-active) .filter-badge { display: none; }
+
+    /* ---------- Controls (collapsible) ---------- */
+    .controls { border-bottom: 1px solid var(--line); background: var(--panel); }
+    .controls[hidden] { display: none; }
+    .controls-inner { max-width: var(--maxw); margin: 0 auto; padding: 20px 28px 22px; display: grid; gap: 16px; }
+    .control-row { display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: start; }
+    .control-row.end { grid-template-columns: 78px 1fr; align-items: center; }
+    .field-label {
+      padding-top: 9px;
+      font-family: "Spline Sans Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    }
+    .segmented { display: inline-grid; grid-template-columns: repeat(3, minmax(72px, auto)); border: 1px solid var(--line-2); width: fit-content; }
+    .segmented button {
+      height: 36px; padding: 0 14px; border: 0; border-right: 1px solid var(--line-2);
+      background: transparent; cursor: pointer; font-size: 12.5px;
+      transition: background .16s ease, color .16s ease;
+    }
+    .segmented button:last-child { border-right: 0; }
+    .segmented button:hover { background: var(--panel-soft); }
+    .segmented button.active { background: var(--ink); color: var(--paper); }
+
+    .chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      height: 32px; padding: 0 11px;
+      border: 1px solid var(--line-2); background: transparent; cursor: pointer;
+      font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.04em;
+      transition: border-color .16s ease, background .16s ease, color .16s ease;
+    }
+    .chip:hover { border-color: var(--ink); }
+    .chip.active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .chip.year { padding: 0 9px; }
+
+    .btn-clear {
+      height: 34px; padding: 0 16px; border: 1px solid var(--line-2); background: transparent; cursor: pointer;
+      font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: border-color .16s ease, background .16s ease, color .16s ease;
+    }
+    .btn-clear:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+
+    /* ---------- Layout ---------- */
+    .layout {
+      max-width: var(--maxw); margin: 0 auto;
+      padding: 44px 28px 72px;
+      display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 34px; align-items: start;
+    }
+    .layout.mode-timeline, .layout.mode-sequence { grid-template-columns: minmax(0, 1fr); }
+    .layout.mode-timeline .detail, .layout.mode-sequence .detail { display: none; }
+
+    .view { display: none; }
+    .view.active { display: block; }
+    .timeline-wrap, .sequence-wrap { max-width: 820px; margin: 0 auto; }
+
+    .lede { margin-bottom: 30px; }
+    .lede h2 { margin: 0; font-size: clamp(26px, 3vw, 34px); letter-spacing: -0.015em; line-height: 1.08; }
+    .lede p { margin: 9px 0 0; font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+    /* ---------- Idea cards (quiet) ---------- */
+    .concept-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .card {
+      display: grid; grid-template-rows: auto auto 1fr auto; gap: 12px;
+      min-height: 196px; padding: 22px;
+      border: 1px solid var(--line); border-left: 3px solid var(--line-2);
+      background: var(--panel); cursor: pointer;
+      text-decoration: none; color: inherit;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .card:hover { border-color: var(--line-2); border-left-color: var(--ink); transform: translateY(-2px); }
+    .card.is-active { border-color: var(--line-2); border-left-color: var(--accent); background: var(--accent-tint); }
+    .card-num {
+      font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.12em; color: var(--muted);
+    }
+    .card.is-active .card-num { color: var(--accent); }
+    .card-title { margin: 0; font-size: 21px; line-height: 1.16; letter-spacing: -0.01em; }
+    .card-essence { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+    .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .card-meta {
+      font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    }
+    .card-merged {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: "Spline Sans Mono", monospace; font-size: 10px; color: var(--muted);
+    }
+    .card.is-active .card-merged { color: var(--accent); }
+    .card-merged::before { content: ""; width: 5px; height: 5px; background: currentColor; border-radius: 50%; }
+
+    /* ---------- Detail panel ---------- */
+    .detail { position: sticky; top: 86px; align-self: start; max-height: calc(100vh - 108px); overflow: auto; scrollbar-width: thin; }
+    .detail::-webkit-scrollbar { width: 6px; }
+    .detail::-webkit-scrollbar-thumb { background: var(--line-2); }
+    .panel { background: var(--panel); border: 1px solid var(--line); }
+    .detail-main { padding: 22px 22px 24px; }
+    .detail-kicker { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .detail-tags { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .tag {
+      font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    }
+    .tag-type { color: var(--ink); font-weight: 500; }
+    .tag-type::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 7px; vertical-align: 1px; background: var(--ink); }
+    .tag-type.business::before { background: transparent; border: 1.4px solid var(--ink); }
+    .tag-type.both::before { background: linear-gradient(90deg, var(--ink) 0 50%, transparent 50%); border: 1.4px solid var(--ink); }
+    .tag-theme { padding: 4px 9px; border: 1px solid var(--line-2); color: var(--ink-soft); letter-spacing: 0.06em; }
+
+    .detail-expand {
+      flex: none; display: grid; place-items: center; width: 32px; height: 28px;
+      border: 1px solid var(--line-2); background: var(--panel); color: var(--ink); cursor: pointer;
+      transition: border-color .16s ease, color .16s ease, background .16s ease;
+    }
+    .detail-expand:hover { border-color: var(--accent); color: var(--accent); background: var(--panel-soft); }
+    .detail-expand svg { width: 13px; height: 13px; }
+
+    .detail-title { margin: 0; font-size: 27px; line-height: 1.08; letter-spacing: -0.02em; }
+    .accent-rule { width: 34px; height: 2px; margin: 13px 0 16px; background: var(--accent); }
+    .detail-lead { margin: 0; font-family: "Newsreader", serif; font-style: italic; font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
+    .detail-block { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .block-label {
+      display: block; margin-bottom: 8px;
+      font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    }
+    .detail-block p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+    .child-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .child-chip { padding: 5px 9px; border: 1px solid var(--line); background: var(--panel-soft); color: var(--ink-soft); font-size: 12px; line-height: 1.25; }
+    .year-links { display: flex; flex-wrap: wrap; gap: 6px; }
+    .year-links a {
+      height: 30px; display: inline-flex; align-items: center; padding: 0 11px;
+      border: 1px solid var(--line-2); text-decoration: none;
+      font-family: "Spline Sans Mono", monospace; font-size: 11.5px;
+      transition: border-color .16s ease, color .16s ease;
+    }
+    .year-links a:hover { border-color: var(--accent); color: var(--accent); }
+    .detail-actions { margin-top: 22px; }
+    .deep-link {
+      width: 100%; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 0 16px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); text-decoration: none;
+      font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+    .deep-link:hover { transform: translateY(-1px); background: var(--accent); border-color: var(--accent); }
+
+    /* ---------- Timeline ---------- */
+    .year-map { display: grid; gap: 8px; }
+    .year-row {
+      display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 18px;
+      padding: 16px 18px; border: 1px solid var(--line); border-left: 3px solid var(--ink); background: var(--panel);
+    }
+    .year-num { font-family: "Newsreader", serif; font-size: 26px; line-height: 1; letter-spacing: -0.02em; }
+    .year-body h3 { margin: 0 0 7px; font-size: 16px; letter-spacing: -0.01em; }
+    .year-body p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+    .year-body p + p { margin-top: 4px; }
+    .year-body .y-life::before, .year-body .y-biz::before {
+      content: "Life"; font-family: "Spline Sans Mono", monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); margin-right: 8px;
+    }
+    .year-body .y-biz::before { content: "Biz"; }
+
+    /* ---------- Sequence ---------- */
+    .sequence { display: grid; gap: 6px; }
+    .sequence button {
+      display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 14px;
+      min-height: 56px; padding: 10px 16px;
+      border: 1px solid var(--line); border-left: 3px solid var(--line); background: var(--panel);
+      cursor: pointer; text-align: left;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .sequence button:hover { border-color: var(--line-2); border-left-color: var(--ink); background: var(--panel-soft); transform: translateX(2px); }
+    .seq-num { font-family: "Spline Sans Mono", monospace; font-size: 13px; color: var(--muted); }
+    .seq-name { font-family: "Newsreader", serif; font-size: 18px; letter-spacing: -0.01em; }
+    .seq-go { font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .sequence button:hover .seq-go { color: var(--accent); }
+
+    .empty { padding: 56px 24px; border: 1px dashed var(--line-2); background: var(--panel); text-align: center; color: var(--muted); }
+    .empty .serif { display: block; font-size: 20px; color: var(--ink); margin-bottom: 6px; }
+
+    /* ---------- Focus / reading overlay ---------- */
+    .focus-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; flex-direction: column; background: var(--paper);
+      opacity: 0; visibility: hidden; transition: opacity .24s ease, visibility .24s ease;
+    }
+    .focus-overlay::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .focus-overlay.is-open { opacity: 1; visibility: visible; }
+    .focus-progress { position: absolute; top: 0; left: 0; height: 2px; width: 0; background: var(--accent); z-index: 3; transition: width .1s linear; }
+
+    .focus-bar { position: relative; z-index: 2; border-bottom: 1px solid var(--line-2); background: rgba(243, 239, 230, 0.9); backdrop-filter: blur(8px) saturate(1.1); }
+    .focus-bar-inner { max-width: 760px; margin: 0 auto; padding: 15px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .focus-counter { font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.1em; color: var(--accent); }
+    .focus-actions { display: flex; align-items: center; gap: 14px; }
+    .focus-nav { display: flex; gap: 5px; }
+    .focus-nav button {
+      width: 34px; height: 30px; display: grid; place-items: center;
+      border: 1px solid var(--line-2); background: transparent; cursor: pointer; color: var(--ink);
+      font-size: 16px; line-height: 1;
+      transition: border-color .16s ease, color .16s ease;
+    }
+    .focus-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .focus-nav button:disabled { opacity: 0.32; cursor: default; }
+    .focus-close {
+      display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 13px;
+      border: 1px solid var(--line-2); background: transparent; cursor: pointer;
+      font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: border-color .16s ease, background .16s ease, color .16s ease;
+    }
+    .focus-close:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .focus-close .x { font-size: 13px; line-height: 1; }
+
+    .focus-scroll { position: relative; z-index: 1; flex: 1; overflow: auto; }
+    .focus-reader { max-width: 680px; margin: 0 auto; padding: 64px 28px 120px; }
+    .f-kicker { display: flex; align-items: center; gap: 14px; }
+    .f-title { margin: 18px 0 0; font-size: clamp(32px, 5vw, 46px); font-weight: 500; line-height: 1.04; letter-spacing: -0.02em; }
+    .f-rule { width: 46px; height: 2px; margin: 24px 0 26px; background: var(--accent); }
+    .f-lead { margin: 0; font-family: "Newsreader", serif; font-style: italic; font-size: 23px; line-height: 1.5; color: var(--ink); }
+    .f-block { margin-top: 32px; padding-top: 26px; border-top: 1px solid var(--line); }
+    .f-label { display: block; margin-bottom: 12px; font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .f-block > p { margin: 0; font-size: 17px; line-height: 1.65; color: var(--ink-soft); }
+    .f-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .f-chip { padding: 7px 12px; border: 1px solid var(--line-2); background: var(--panel); color: var(--ink-soft); font-size: 14px; line-height: 1.3; }
+    .f-years { display: flex; flex-wrap: wrap; gap: 7px; }
+    .f-years a {
+      height: 32px; display: inline-flex; align-items: center; padding: 0 12px;
+      border: 1px solid var(--line-2); text-decoration: none; font-family: "Spline Sans Mono", monospace; font-size: 12px;
+      transition: border-color .16s ease, color .16s ease;
+    }
+    .f-years a:hover { border-color: var(--accent); color: var(--accent); }
+    .f-deep {
+      margin-top: 34px; display: inline-flex; align-items: center; gap: 10px;
+      min-height: 52px; padding: 0 24px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); text-decoration: none;
+      font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+    .f-deep:hover { transform: translateY(-1px); background: var(--accent); border-color: var(--accent); }
+
+    body.focus-open { overflow: hidden; }
+
+    /* ---------- Reveal ---------- */
+    @keyframes riseIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .reveal { animation: riseIn .55s cubic-bezier(.2,.7,.2,1) both; }
+    .reveal.d1 { animation-delay: .06s; }
+    .reveal.d2 { animation-delay: .12s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { animation: none; }
+      html { scroll-behavior: auto; }
+      .card:hover, .sequence button:hover { transform: none; }
+      .focus-overlay, .focus-progress { transition: none; }
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1040px) {
+      .layout { grid-template-columns: minmax(0, 1fr); }
+      .detail { position: static; max-height: none; }
+      .layout.mode-ideas .detail { display: block; }
+    }
+    @media (max-width: 760px) {
+      .topbar-inner { grid-template-columns: auto 1fr; row-gap: 12px; }
+      .views { justify-self: start; grid-column: 1 / -1; order: 3; }
+      .top-actions { justify-self: end; }
+      .search input { width: 150px; }
+      .search input:focus { width: 180px; }
+      .layout, .topbar-inner, .controls-inner { padding-left: 16px; padding-right: 16px; }
+      .concept-grid { grid-template-columns: 1fr; }
+      .control-row { grid-template-columns: 1fr; gap: 8px; }
+      .field-label { padding-top: 0; }
+      .focus-reader { padding: 44px 20px 90px; }
+      .focus-bar-inner { padding: 13px 18px; }
+      .brand-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="top">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand reveal" href="#top" aria-label="The Bezos Ideas Hub home">
+          <span class="brand-mark">1</span>
+          <span class="brand-name">Bezos Ideas Hub</span>
+        </a>
+        <nav class="views reveal" aria-label="Views">
+          <button class="view-tab active" data-view="ideas" type="button">Ideas</button>
+          <button class="view-tab" data-view="timeline" type="button">Timeline</button>
+          <button class="view-tab" data-view="sequence" type="button">Sequence</button>
+        </nav>
+        <div class="top-actions reveal d1">
+          <label class="search" aria-label="Search ideas">
+            <span class="search-ico"></span>
+            <input id="searchInput" type="search" placeholder="Search&hellip;" autocomplete="off">
+          </label>
+          <button id="filterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="controls">
+            Filter <span class="filter-badge" id="filterBadge">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="controls" id="controls" hidden>
+        <div class="controls-inner">
+          <div class="control-row">
+            <span class="field-label">Type</span>
+            <div class="segmented" role="tablist" aria-label="Idea type">
+              <button class="active" data-type="all" type="button">All</button>
+              <button data-type="life" type="button">Life</button>
+              <button data-type="business" type="button">Business</button>
+            </div>
+          </div>
+          <div class="control-row">
+            <span class="field-label">Themes</span>
+            <div id="bucketChips" class="chip-wrap"></div>
+          </div>
+          <div class="control-row">
+            <span class="field-label">Years</span>
+            <div id="yearChips" class="chip-wrap"></div>
+          </div>
+          <div class="control-row end">
+            <span class="field-label">&nbsp;</span>
+            <div><button id="clearFilters" class="btn-clear" type="button">Clear all</button></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout mode-ideas" id="layout">
+      <div class="main-col">
+        <!-- Ideas view -->
+        <section class="view active" id="view-ideas">
+          <div class="lede">
+            <h2 id="ledeTitle">Fifteen ideas, distilled.</h2>
+            <p id="ledeSub"></p>
+          </div>
+          <div id="conceptGrid" class="concept-grid"></div>
+        </section>
+
+        <!-- Timeline view -->
+        <section class="view" id="view-timeline">
+          <div class="timeline-wrap">
+            <div class="lede">
+              <h2>Letter by letter.</h2>
+              <p>Jeff Bezos to Amazon shareholders &middot; 1997&ndash;2020</p>
+            </div>
+            <div id="yearMap" class="year-map"></div>
+          </div>
+        </section>
+
+        <!-- Sequence view -->
+        <section class="view" id="view-sequence">
+          <div class="sequence-wrap">
+            <div class="lede">
+              <h2>A path through the ideas.</h2>
+              <p>First-pass reading order for deep dives</p>
+            </div>
+            <div id="sequenceList" class="sequence"></div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="detail reveal d2">
+        <section class="panel">
+          <div class="detail-main" id="detailPane"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Focus reading overlay -->
+  <div class="focus-overlay" id="focusOverlay" role="dialog" aria-modal="true" aria-label="Idea reading mode">
+    <div class="focus-progress" id="focusProgress"></div>
+    <div class="focus-bar">
+      <div class="focus-bar-inner">
+        <span class="focus-counter" id="focusCounter"></span>
+        <div class="focus-actions">
+          <div class="focus-nav">
+            <button type="button" id="focusPrev" aria-label="Previous idea">&lsaquo;</button>
+            <button type="button" id="focusNext" aria-label="Next idea">&rsaquo;</button>
+          </div>
+          <button type="button" class="focus-close" id="focusClose">
+            <span class="x">&#10005;</span> Close <span aria-hidden="true">&middot; Esc</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="focus-scroll" id="focusScroll">
+      <article class="focus-reader" id="focusReader"></article>
+    </div>
+  </div>
+
+  <script>
+    const buckets = [
+      { name: "Personal Operating System" },
+      { name: "Decision Quality" },
+      { name: "Standards and Craft" },
+      { name: "Customer and Service Mindset" },
+      { name: "Innovation and Experimentation" },
+      { name: "Business Model and Capital" },
+      { name: "Culture and Scale" },
+      { name: "Stakeholder and Society" }
+    ];
+
+    const concepts = [
+      c("Long-term ownership", "both", "Personal Operating System", "Think like an owner across time: protect the asset, compound future value, and ignore short-term appearances when they conflict with durable value.", "A master lens for investing, career, health, relationships, and business building.", [1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2020], ["Long-term thinking", "Ownership vs tenancy", "Enduring franchise", "Market leadership logic"], "long_term_thinking_reader.html"),
+      c("Day 1 anti-complacency", "both", "Culture and Scale", "Stay urgent, curious, close to reality, and allergic to slow institutional decline.", "Use it when success starts turning into routine, defense, or process worship.", [1997, 1998, 1999, 2014, 2016, 2018, 2020], ["Day 1 mentality", "Day 2 decline", "Embrace external trends", "Keep a company non-typical", "Differentiation is survival"], "day_1_anti_complacency_reader.html"),
+      c("Customer-backed empathy", "both", "Customer and Service Mindset", "Begin with the person served, not with your current skills, org chart, or competitor anxiety.", "Use it to design work, products, service, and personal decisions around a real human need.", [1997, 1998, 2001, 2002, 2003, 2008, 2012, 2016, 2017], ["Customer obsession as empathy", "Working backwards", "Be proactive before pressure", "Proactive customer delight", "Stable customer needs", "Customer experience pillars"], "customer_backed_empathy_reader.html"),
+      c("High standards and craft", "life", "Standards and Craft", "Know what good looks like, know the true scope of the work, and care about quality even where nobody sees it.", "Use it for school, writing, engineering, management, health, and any craft where invisible work determines visible quality.", [2017], ["High standards are teachable", "High standards are domain-specific", "Recognition and scope", "Hidden work matters"], "high_standards_and_craft_reader.html"),
+      c("Decision quality and speed", "both", "Decision Quality", "Match the process to the reversibility of the decision, move before certainty when appropriate, and commit cleanly after debate.", "Use it to avoid both reckless action and large-company slowness.", [2005, 2015, 2016], ["Type 1 decisions", "Type 2 decisions", "70% information rule", "Disagree and commit", "Escalate true misalignment", "One-size-fits-all decision trap"], "decision_quality_and_speed_reader.html"),
+      c("Judgment beyond proxies", "both", "Decision Quality", "Use data and process, but do not let measurements, surveys, or short-term math replace judgment.", "Use it when the spreadsheet is useful but incomplete, especially for long-term trust or invention.", [2005, 2016, 2018], ["Resist proxies", "Data plus judgment", "Long-term judgment against short-term math", "Heart, intuition, curiosity, taste"], "judgment_beyond_proxies_reader.html"),
+      c("Invention portfolio", "both", "Innovation and Experimentation", "Protect small seeds, run experiments, accept failures, wander intelligently, and double down when something works.", "Use it for projects, startups, learning, research, and any domain where outcomes are non-linear.", [1997, 2006, 2008, 2013, 2015, 2016, 2018, 2020], ["Plant seeds and protect saplings", "Failure is part of invention", "Failure and invention are inseparable", "Big winners pay for many losers", "Wandering", "Builder's mentality", "Beginner's mind"], "invention_portfolio_reader.html"),
+      c("Missionary value creation", "both", "Stakeholder and Society", "Create more value than you consume, care about the mission, and avoid becoming generic.", "Use it as the moral and practical test for work, investing, relationships, and business models.", [2007, 2011, 2012, 2013, 2020], ["Missionary mindset", "Create more than you consume", "Value is not zero-sum", "Be kind, be original"], "missionary_value_creation_reader.html"),
+      c("Trust flywheel", "business", "Customer and Service Mindset", "Earn trust through reality: lower prices, better service, honest information, speed, selection, and proactive improvement.", "Use it to connect customer love with durable economics.", [2001, 2002, 2003, 2005, 2008, 2012, 2014], ["Customer trust as asset", "Everyday low prices", "Price-cost flywheel", "Advanced technology should feel simple", "Better and faster beats cheaper alone"], "trust_flywheel_reader.html"),
+      c("Free cash flow discipline", "business", "Business Model and Capital", "Judge business value by future cash flow per share, capital efficiency, and dilution, not surface accounting appearance.", "Use it for investing analysis and business model judgment.", [1997, 2001, 2004, 2008, 2014, 2020], ["Free cash flow per share", "Earnings can mislead", "Capital efficiency"], "free_cash_flow_discipline_reader.html"),
+      c("Operating system of excellence", "business", "Culture and Scale", "Focus on controllable inputs, remove waste, improve productivity, and let operational excellence reinforce customer experience.", "Use it to translate strategy into goals, owners, inspection, and repeatable execution.", [1998, 1999, 2002, 2008, 2009, 2010, 2013, 2015], ["Operational excellence", "Muda and waste removal", "Controllable inputs over outputs"], "operating_system_of_excellence_reader.html"),
+      c("Platform and ecosystem design", "business", "Business Model and Capital", "Build platforms where customers, sellers, builders, and partners make each other stronger.", "Use it to understand Marketplace, AWS, FBA, KDP, Prime, and business model alignment.", [1999, 2002, 2005, 2006, 2011, 2012, 2014, 2015, 2018, 2020], ["Platform as asset", "Self-service platforms", "Marketplace paradox", "Flywheel design", "Business model alignment"], "platform_and_ecosystem_design_reader.html"),
+      c("Dreamy business filter", "business", "Business Model and Capital", "Look for opportunities customers love, that can become huge, earn strong returns, and last for decades.", "Use it as a compact screen for exceptional businesses and career opportunities.", [2014], ["Dreamy business offering", "Market-size unconstrained", "Enduring franchise", "Market leadership logic"], "dreamy_business_filter_reader.html"),
+      c("Culture as compounding infrastructure", "business", "Culture and Scale", "Culture is the repeated behavior system that lets a large company keep acting like builders.", "Use it to understand hiring, ownership, technology integration, invention, and scale without bureaucracy.", [2000, 2006, 2010, 2015, 2017, 2018], ["Culture as advantage", "Culture fit and self-selection", "Single-threaded ownership", "Technology embedded in business"], "culture_as_compounding_infrastructure_reader.html"),
+      c("Responsible scale", "business", "Stakeholder and Society", "As scale grows, value creation must expand beyond customers and shareholders to employees, sellers, communities, and climate.", "Use it to study what large-company responsibility looks like when it is tied to invention and operations.", [2013, 2014, 2015, 2017, 2018, 2019, 2020], ["Employee choice and upskilling", "Scale for good", "Stakeholder value creation", "Earth's Best Employer", "Climate as invention opportunity"], "responsible_scale_reader.html")
+    ];
+
+    const yearMap = [
+      y(1997, "Long-term customer-centered ownership", "Be clear about your philosophy before hard choices arrive.", "Build an enduring franchise through customer obsession, bold bets, analytical discipline, and owner-minded employees."),
+      y(1998, "Customer-centric company and fear of complacency", "Be afraid of failing customers, not competitors. Keep improving.", "Brand image follows reality. Selection, ease, price, and service create trust."),
+      y(1999, "Platform ownership", "Ask what you own in terms of capabilities, not just current outputs.", "Amazon as platform: brand, customers, tech, distribution, expertise, team."),
+      y(2000, "Business fundamentals vs stock price", "Do not let market opinion define reality. Keep building the heavier thing.", "Scale matters in online retail. Some bold bets fail, and capital availability changes strategy."),
+      y(2001, "Cost improvement and free cash flow", "Balance growth ambition with discipline.", "Lower cost leads to lower price, growth, fixed-cost leverage, and more price reductions."),
+      y(2002, "Low price plus better experience", "Reject false tradeoffs when technology can change the system.", "Turning customer experience into fixed cost allows low prices and better service together."),
+      y(2003, "Ownership mindset", "Owners make decisions tenants would not make.", "Negative reviews and order reminders may reduce short-term sales but improve long-term trust."),
+      y(2004, "Free cash flow per share", "Do not judge health from surface metrics alone.", "Earnings can grow while value is destroyed if capital needs are too high."),
+      y(2005, "Math decisions vs judgment decisions", "Use data where it works, but accept judgment when the future cannot be modeled.", "Low prices, Prime, and third-party sellers were judgment calls against short-term math."),
+      y(2006, "Planting seeds", "Protect small promising things before they look big.", "New businesses need large potential, good returns, differentiation, and patient culture."),
+      y(2007, "Kindle and missionary product work", "Improve the old by using the new medium, not by copying the old.", "Great products remove friction, create new capabilities, and are built better by missionaries."),
+      y(2008, "Working backwards from durable needs", "Let meaningful needs force you to learn new skills.", "Low price, selection, and fast delivery are durable pillars worth long-term investment."),
+      y(2009, "Inputs over outputs", "Focus on controllable actions, not only final results.", "Customer-impacting goals drive financial outputs over time."),
+      y(2010, "Technology as business system", "Hard problems often have no textbook solution. Learn and invent.", "Technology is embedded in all teams and directly drives customer value and free cash flow."),
+      y(2011, "Self-service invention platforms", "Remove gatekeepers so more people can try ideas.", "AWS, FBA, and KDP empower developers, sellers, and authors in non-zero-sum ways."),
+      y(2012, "Proactive customer delight", "Improve before you are forced to.", "Customer focus creates trust by adding value before competitive pressure demands it."),
+      y(2013, "Reinventing normal", "Keep asking how do we make this better?", "Empowered teams focus on inputs, iteration, and employee choice."),
+      y(2014, "Dreamy businesses and flywheels", "When you find a rare compounding opportunity, nurture it.", "Marketplace, Prime, and AWS meet the dreamy business filter and reinforce each other."),
+      y(2015, "Culture, failure, and decision types", "Bold experiments are rational when upside is large.", "Culture is durable. Type 1 and Type 2 decisions prevent large-company slowness."),
+      y(2016, "Day 1 defense", "Resist stasis, proxies, slow decisions, and trend denial.", "Customer obsession, external trends, and high-velocity decision making keep large companies alive."),
+      y(2017, "High standards", "Know what good looks like and how much work it takes.", "High standards are teachable, domain-specific, and protective of invisible work."),
+      y(2018, "Wandering and builders", "Leave room for curiosity when solving non-linear problems.", "Big inventions require intuition, experimentation, and failures large enough to matter."),
+      y(2019, "Responsibility under scale", "Crisis reveals whether your work truly matters to people.", "Scale can be used for essential services, employee safety, climate action, and public-good infrastructure."),
+      y(2020, "Create more than you consume", "Be kind, be original, and protect your distinctiveness.", "Real value creation serves shareholders, employees, sellers, customers, and society.")
+    ];
+
+    const studySequence = [
+      "Long-term ownership",
+      "Day 1 anti-complacency",
+      "Customer-backed empathy",
+      "High standards and craft",
+      "Decision quality and speed",
+      "Judgment beyond proxies",
+      "Invention portfolio",
+      "Missionary value creation",
+      "Trust flywheel",
+      "Free cash flow discipline",
+      "Operating system of excellence",
+      "Platform and ecosystem design",
+      "Dreamy business filter",
+      "Culture as compounding infrastructure",
+      "Responsible scale"
+    ];
+
+    const state = {
+      type: "all",
+      bucket: "all",
+      year: "all",
+      query: "",
+      view: "ideas",
+      selected: "Long-term ownership"
+    };
+
+    const els = {
+      search: document.getElementById("searchInput"),
+      bucketChips: document.getElementById("bucketChips"),
+      yearChips: document.getElementById("yearChips"),
+      conceptGrid: document.getElementById("conceptGrid"),
+      yearMap: document.getElementById("yearMap"),
+      detail: document.getElementById("detailPane"),
+      ledeTitle: document.getElementById("ledeTitle"),
+      ledeSub: document.getElementById("ledeSub"),
+      clear: document.getElementById("clearFilters"),
+      sequence: document.getElementById("sequenceList"),
+      layout: document.getElementById("layout"),
+      filterToggle: document.getElementById("filterToggle"),
+      filterBadge: document.getElementById("filterBadge"),
+      controls: document.getElementById("controls")
+    };
+
+    // Focus overlay elements
+    const overlay = document.getElementById("focusOverlay");
+    const focusReader = document.getElementById("focusReader");
+    const focusScroll = document.getElementById("focusScroll");
+    const focusProgress = document.getElementById("focusProgress");
+    const focusCounter = document.getElementById("focusCounter");
+    const focusClose = document.getElementById("focusClose");
+    const focusPrev = document.getElementById("focusPrev");
+    const focusNext = document.getElementById("focusNext");
+
+    let currentList = [];   // ideas currently shown (filter order)
+    let focusList = [];      // list the focus reader is navigating
+    let focusIndex = 0;
+
+    function c(name, type, bucket, plain, use, years, children = [], deepDive = "") {
+      return { id: slug(name), name, type, bucket, plain, use, years, children, deepDive };
+    }
+    function y(year, main, life, business) { return { year, main, life, business }; }
+    function slug(value) { return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); }
+    function yearHref(year) { return `../data/extracted/${year}.md`; }
+    function yearSpan(concept) {
+      if (concept.years.length === 1) return String(concept.years[0]);
+      return `${concept.years[0]}–${concept.years[concept.years.length - 1]}`;
+    }
+    function typeLabel(t) { return t === "life" ? "Life" : t === "business" ? "Business" : "Both"; }
+    function matchesYear(concept, year) { return year === "all" || concept.years.includes(Number(year)); }
+
+    function filteredConcepts() {
+      const q = state.query.trim().toLowerCase();
+      return concepts.filter((concept) => {
+        const haystack = [concept.name, concept.type, concept.bucket, concept.plain, concept.use, concept.children.join(" "), concept.years.join(" ")].join(" ").toLowerCase();
+        const typeMatch = state.type === "all" || concept.type === state.type || concept.type === "both";
+        return typeMatch
+          && (state.bucket === "all" || concept.bucket === state.bucket)
+          && matchesYear(concept, state.year)
+          && (!q || haystack.includes(q));
+      });
+    }
+
+    function activeFilterCount() {
+      return (state.type !== "all" ? 1 : 0) + (state.bucket !== "all" ? 1 : 0) + (state.year !== "all" ? 1 : 0);
+    }
+
+    function renderControls() {
+      // Type segmented active state
+      document.querySelectorAll(".segmented button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.type === state.type);
+      });
+
+      // Theme chips
+      els.bucketChips.innerHTML = `
+        <button type="button" class="chip ${state.bucket === "all" ? "active" : ""}" data-bucket="all">All</button>
+        ${buckets.map((b) => `<button type="button" class="chip ${state.bucket === b.name ? "active" : ""}" data-bucket="${b.name}">${b.name}</button>`).join("")}
+      `;
+      els.bucketChips.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => { state.bucket = button.dataset.bucket; render(); });
+      });
+
+      // Year chips
+      const years = Array.from({ length: 24 }, (_, i) => 1997 + i);
+      els.yearChips.innerHTML = `
+        <button type="button" class="chip year ${state.year === "all" ? "active" : ""}" data-year="all">All</button>
+        ${years.map((yr) => `<button type="button" class="chip year ${String(state.year) === String(yr) ? "active" : ""}" data-year="${yr}">${String(yr).slice(2)}</button>`).join("")}
+      `;
+      els.yearChips.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => { state.year = button.dataset.year; render(); });
+      });
+
+      // Filter toggle badge
+      const n = activeFilterCount();
+      els.filterToggle.classList.toggle("has-active", n > 0);
+      els.filterBadge.textContent = String(n);
+    }
+
+    function renderIdeas() {
+      currentList = filteredConcepts();
+      if (!currentList.some((item) => item.name === state.selected) && currentList.length > 0) {
+        state.selected = currentList[0].name;
+      }
+
+      const titleParts = [];
+      if (state.type !== "all") titleParts.push(state.type === "life" ? "Life ideas" : "Business ideas");
+      if (state.bucket !== "all") titleParts.push(state.bucket);
+      if (state.year !== "all") titleParts.push(String(state.year));
+      els.ledeTitle.textContent = titleParts.length ? titleParts.join(" · ") : "Fifteen ideas, distilled.";
+      els.ledeSub.textContent = `${currentList.length} of ${concepts.length} ideas · from 24 letters, 1997–2020`;
+
+      if (!currentList.length) {
+        els.conceptGrid.innerHTML = `<div class="empty"><span class="serif">Nothing here</span>No ideas match this view. Try clearing a filter.</div>`;
+        return;
+      }
+
+      els.conceptGrid.innerHTML = currentList.map((concept, i) => `
+        <a class="card ${concept.name === state.selected ? "is-active" : ""}" href="${concept.deepDive || "#"}" data-concept="${concept.name}">
+          <span class="card-num">${String(i + 1).padStart(2, "0")}</span>
+          <h3 class="card-title">${concept.name}</h3>
+          <p class="card-essence">${concept.plain}</p>
+          <div class="card-foot">
+            <span class="card-meta">${typeLabel(concept.type)} · ${yearSpan(concept)}</span>
+            <span class="card-merged">${concept.children.length} merged</span>
+          </div>
+        </a>
+      `).join("");
+
+      // Card click follows the link to the deep dive. Hover/focus previews it in the side panel.
+      els.conceptGrid.querySelectorAll(".card").forEach((card) => {
+        const name = card.dataset.concept;
+        card.addEventListener("mouseenter", () => selectPreview(name));
+        card.addEventListener("focus", () => selectPreview(name));
+      });
+    }
+
+    function selectPreview(name) {
+      if (state.selected === name) return;
+      state.selected = name;
+      renderDetail();
+      els.conceptGrid.querySelectorAll(".card").forEach((c) => c.classList.toggle("is-active", c.dataset.concept === name));
+    }
+
+    function renderDetail() {
+      const selected = concepts.find((concept) => concept.name === state.selected) || concepts[0];
+      els.detail.innerHTML = `
+        <div class="detail-kicker">
+          <div class="detail-tags">
+            <span class="tag tag-type ${selected.type}">${typeLabel(selected.type)}</span>
+            <span class="tag tag-theme">${selected.bucket}</span>
+          </div>
+          <button type="button" class="detail-expand" id="detailExpand" aria-label="Read in focus mode" title="Read in focus mode">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"></path></svg>
+          </button>
+        </div>
+        <h2 class="detail-title">${selected.name}</h2>
+        <div class="accent-rule"></div>
+        <p class="detail-lead">${selected.plain}</p>
+        <div class="detail-block">
+          <span class="block-label">Where it applies</span>
+          <p>${selected.use}</p>
+        </div>
+        <div class="detail-block">
+          <span class="block-label">Merged ideas (${selected.children.length})</span>
+          <div class="child-list">
+            ${selected.children.map((child) => `<span class="child-chip">${child}</span>`).join("")}
+          </div>
+        </div>
+        <div class="detail-block">
+          <span class="block-label">Source letters</span>
+          <div class="year-links">
+            ${selected.years.map((year) => `<a href="${yearHref(year)}">${year}</a>`).join("")}
+          </div>
+        </div>
+        ${selected.deepDive ? `
+          <div class="detail-actions">
+            <a class="deep-link" href="${selected.deepDive}">Open deep dive &rarr;</a>
+          </div>
+        ` : ""}
+      `;
+      const expandBtn = document.getElementById("detailExpand");
+      if (expandBtn) expandBtn.addEventListener("click", () => openFocus(selected.name, currentList));
+    }
+
+    function studyPrompt(concept) {
+      if (concept.type === "business") return `What business mechanism would make this idea measurable or repeatable?`;
+      return `Where would this change one decision, habit, or relationship this week?`;
+    }
+
+    function renderSequence() {
+      els.sequence.innerHTML = studySequence.map((name, index) => `
+        <button type="button" data-concept="${name}">
+          <span class="seq-num">${String(index + 1).padStart(2, "0")}</span>
+          <span class="seq-name">${name}</span>
+          <span class="seq-go">Read &rarr;</span>
+        </button>
+      `).join("");
+      const seqConcepts = studySequence.map((name) => concepts.find((c) => c.name === name)).filter(Boolean);
+      els.sequence.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.selected = button.dataset.concept;
+          openFocus(button.dataset.concept, seqConcepts);
+        });
+      });
+    }
+
+    function renderYearMap() {
+      const rows = state.year === "all" ? yearMap : yearMap.filter((item) => String(item.year) === String(state.year));
+      els.yearMap.innerHTML = rows.map((item) => `
+        <article class="year-row">
+          <div class="year-num">${item.year}</div>
+          <div class="year-body">
+            <h3>${item.main}</h3>
+            <p class="y-life">${item.life}</p>
+            <p class="y-biz">${item.business}</p>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function switchView(view) {
+      state.view = view;
+      document.querySelectorAll(".view-tab").forEach((t) => t.classList.toggle("active", t.dataset.view === view));
+      document.querySelectorAll(".view").forEach((s) => s.classList.toggle("active", s.id === `view-${view}`));
+      els.layout.className = `layout mode-${view}`;
+      document.getElementById("top").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function render() {
+      renderControls();
+      renderIdeas();
+      renderDetail();
+      renderSequence();
+      renderYearMap();
+    }
+
+    /* ---------- Focus reading mode ---------- */
+    function renderFocus() {
+      const idea = focusList[focusIndex];
+      if (!idea) return;
+      focusCounter.textContent = `${String(focusIndex + 1).padStart(2, "0")} / ${String(focusList.length).padStart(2, "0")}`;
+      focusPrev.disabled = focusIndex <= 0;
+      focusNext.disabled = focusIndex >= focusList.length - 1;
+      focusReader.innerHTML = `
+        <div class="f-kicker">
+          <span class="tag tag-type ${idea.type}">${typeLabel(idea.type)}</span>
+          <span class="tag tag-theme">${idea.bucket}</span>
+        </div>
+        <h1 class="f-title">${idea.name}</h1>
+        <div class="f-rule"></div>
+        <p class="f-lead">${idea.plain}</p>
+        <div class="f-block">
+          <span class="f-label">Where it applies</span>
+          <p>${idea.use}</p>
+        </div>
+        <div class="f-block">
+          <span class="f-label">Merged ideas (${idea.children.length})</span>
+          <div class="f-chips">${idea.children.map((c) => `<span class="f-chip">${c}</span>`).join("")}</div>
+        </div>
+        <div class="f-block">
+          <span class="f-label">Source letters</span>
+          <div class="f-years">${idea.years.map((yr) => `<a href="${yearHref(yr)}">${yr}</a>`).join("")}</div>
+        </div>
+        <div class="f-block">
+          <span class="f-label">Study prompt</span>
+          <p>${studyPrompt(idea)}</p>
+        </div>
+        ${idea.deepDive ? `<a class="f-deep" href="${idea.deepDive}">Open deep dive &rarr;</a>` : ""}
+      `;
+      focusScroll.scrollTop = 0;
+      focusProgress.style.width = "0%";
+    }
+
+    function openFocus(name, list) {
+      focusList = (list && list.length) ? list : currentList;
+      const idx = focusList.findIndex((c) => c.name === name);
+      focusIndex = idx >= 0 ? idx : 0;
+      renderFocus();
+      overlay.classList.add("is-open");
+      document.body.classList.add("focus-open");
+      focusClose.focus();
+    }
+    function closeFocus() {
+      overlay.classList.remove("is-open");
+      document.body.classList.remove("focus-open");
+    }
+    function stepFocus(delta) {
+      const next = focusIndex + delta;
+      if (next < 0 || next >= focusList.length) return;
+      focusIndex = next;
+      // keep the side selection in sync with what we are reading
+      state.selected = focusList[focusIndex].name;
+      renderFocus();
+    }
+
+    focusClose.addEventListener("click", closeFocus);
+    focusPrev.addEventListener("click", () => stepFocus(-1));
+    focusNext.addEventListener("click", () => stepFocus(1));
+    focusScroll.addEventListener("scroll", () => {
+      const max = focusScroll.scrollHeight - focusScroll.clientHeight;
+      focusProgress.style.width = `${max > 0 ? (focusScroll.scrollTop / max) * 100 : 0}%`;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (!overlay.classList.contains("is-open")) return;
+      if (event.key === "Escape") closeFocus();
+      else if (event.key === "ArrowLeft") stepFocus(-1);
+      else if (event.key === "ArrowRight") stepFocus(1);
+    });
+
+    /* ---------- Wiring ---------- */
+    document.querySelectorAll(".view-tab").forEach((tab) => {
+      tab.addEventListener("click", () => switchView(tab.dataset.view));
+    });
+
+    document.querySelectorAll(".segmented button").forEach((button) => {
+      button.addEventListener("click", () => { state.type = button.dataset.type; render(); });
+    });
+
+    els.search.addEventListener("input", (event) => { state.query = event.target.value; render(); });
+
+    els.filterToggle.addEventListener("click", () => {
+      const open = els.controls.hasAttribute("hidden");
+      if (open) { els.controls.removeAttribute("hidden"); els.filterToggle.classList.add("is-on"); els.filterToggle.setAttribute("aria-expanded", "true"); }
+      else { els.controls.setAttribute("hidden", ""); els.filterToggle.classList.remove("is-on"); els.filterToggle.setAttribute("aria-expanded", "false"); }
+    });
+
+    els.clear.addEventListener("click", () => {
+      state.type = "all"; state.bucket = "all"; state.year = "all"; state.query = "";
+      els.search.value = "";
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
