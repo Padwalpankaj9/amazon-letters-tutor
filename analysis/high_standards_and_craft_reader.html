@@ -42,7 +42,7 @@
     a { color: inherit; }
     button { font: inherit; color: inherit; }
 
-    /* ---------- Cover hero ---------- */
+    /* ---------- Lean page bar ---------- */
     .hero { background: var(--ink); color: var(--cream); position: relative; overflow: hidden; }
     .hero::after {
       content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
@@ -57,33 +57,13 @@
     .hero-top-inner a { text-decoration: none; color: var(--cream); }
     .hero-top-inner a:hover { color: #fff; }
     .hero-top-inner .dot { color: var(--accent); }
-
-    .hero-main {
-      position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 74px 32px 44px;
+    .hero-title {
+      max-width: 46ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      color: var(--cream); text-align: right;
     }
-    .eyebrow {
-      margin: 0 0 18px; font-family: "Spline Sans Mono", monospace; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream-soft);
-    }
-    .eyebrow::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 10px; vertical-align: 1px; background: var(--accent); }
-    h1 { margin: 0; max-width: 18ch; font-size: clamp(40px, 6.2vw, 76px); font-weight: 500; line-height: 1.0; letter-spacing: -0.025em; color: var(--cream); }
-    .hero-rule { width: 56px; height: 2px; margin: 26px 0 22px; background: var(--accent); }
-    .hero-copy { margin: 0; max-width: 62ch; color: var(--cream-soft); font-size: 17px; line-height: 1.6; }
-
-    /* Context band across the bottom of the cover */
-    .hero-use { position: relative; z-index: 1; }
-    .hero-use-inner { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
-    .use-grid {
-      border-top: 1px solid var(--cream-line); padding: 34px 0 58px;
-      display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: 44px;
-    }
-    .use-col .use-label { display: block; margin-bottom: 12px; font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-lite); }
-    .use-col p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--cream-soft); max-width: 34ch; }
-    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .chip { padding: 5px 10px; border: 1px solid var(--cream-line); background: transparent; color: var(--cream-soft); font-size: 12px; line-height: 1.3; transition: border-color .16s ease, color .16s ease; }
-    .chip:hover { border-color: var(--accent-lite); color: var(--cream); }
 
     /* ---------- Reading column (single, calm) ---------- */
-    .reading { max-width: 660px; margin: 0 auto; padding: 64px 28px 120px; }
+    .reading { max-width: 660px; margin: 0 auto; padding: 54px 28px 120px; }
     .reading-lead {
       margin: 0 0 12px; font-family: "Spline Sans Mono", monospace;
       font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
@@ -124,22 +104,49 @@
     .focus-progress { position: absolute; top: 0; left: 0; height: 2px; width: 0; background: var(--accent); z-index: 3; transition: width .1s linear; }
     .focus-bar { position: relative; z-index: 2; border-bottom: 1px solid var(--line-2); background: rgba(243, 239, 230, 0.9); backdrop-filter: blur(8px) saturate(1.1); }
     .focus-bar-inner { width: 100%; margin: 0; padding: 15px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .focus-meta { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
-    .focus-year { flex: none; font-family: "Spline Sans Mono", monospace; font-size: 12px; letter-spacing: 0.1em; color: var(--accent); }
+    .focus-home {
+      flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 32px;
+      padding: 0 11px; border: 1px solid var(--line-2); text-decoration: none;
+      font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--ink); white-space: nowrap;
+      transition: border-color .16s ease, background .16s ease, color .16s ease;
+    }
+    .focus-home:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .focus-meta { flex: 1; display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+    .focus-year { display: none; }
     .focus-title { font-family: "Newsreader", serif; font-size: 18px; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .focus-actions { display: flex; align-items: center; gap: 10px; flex: none; }
     .focus-counter { font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--muted); }
-    .focus-nav { display: flex; gap: 5px; }
-    .focus-nav button { width: 34px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line-2); background: transparent; cursor: pointer; color: var(--ink); font-size: 16px; line-height: 1; transition: border-color .16s ease, color .16s ease; }
-    .focus-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
-    .focus-nav button:disabled { opacity: 0.32; cursor: default; }
+    .focus-side-nav {
+      position: absolute; top: 50%; z-index: 3; width: 46px; height: 58px;
+      display: grid; place-items: center; border: 1px solid var(--line-2);
+      background: rgba(251, 249, 243, 0.88); color: var(--ink); cursor: pointer;
+      font-family: "Newsreader", serif; font-size: 34px; line-height: 1;
+      transform: translateY(-50%); backdrop-filter: blur(8px) saturate(1.1);
+      transition: border-color .16s ease, background .16s ease, color .16s ease, opacity .16s ease;
+    }
+    .focus-side-nav:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); background: var(--panel); }
+    .focus-side-nav:disabled { opacity: 0.22; cursor: default; }
+    .focus-side-nav.prev { left: 22px; }
+    .focus-side-nav.next { right: 22px; }
+    .focus-overlay.letter-open .focus-side-nav {
+      top: auto; bottom: 28px; width: 40px; height: 44px;
+      font-size: 28px; transform: none;
+      background: rgba(251, 249, 243, 0.94);
+    }
+    .focus-overlay.letter-open .focus-side-nav.prev {
+      left: calc((100% - var(--letter-width) - 8px) / 2 - 50px);
+    }
+    .focus-overlay.letter-open .focus-side-nav.next {
+      right: auto; left: calc((100% - var(--letter-width) - 8px) / 2 + 10px);
+    }
     .letter-toggle, .focus-close { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 13px; border: 1px solid var(--line-2); background: transparent; cursor: pointer; font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; transition: border-color .16s ease, background .16s ease, color .16s ease; }
     .letter-toggle { border-color: var(--ink); background: var(--ink); color: var(--paper); }
     .letter-toggle:hover, .focus-overlay.letter-open .letter-toggle { border-color: var(--accent); background: var(--accent); color: var(--paper); }
     .focus-close:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
     .focus-close .x { font-size: 13px; line-height: 1; }
     .focus-main {
-      --letter-width: 42vw;
+      --letter-width: 60vw;
       position: relative; z-index: 1; flex: 1; min-height: 0;
       display: grid; grid-template-columns: minmax(0, 1fr) 0 0;
       transition: grid-template-columns .24s ease;
@@ -192,26 +199,67 @@
     .letter-document li { margin: 0 0 12px; font-family: "Newsreader", serif; font-size: 20px; line-height: 1.72; color: var(--ink); }
     .letter-document li::marker { color: var(--line-2); }
     .letter-heading { font-family: "Newsreader", serif; font-size: 27px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink); }
+    .letter-table { margin: 30px 0; }
+    .letter-table-title {
+      margin: 0 0 12px; font-family: "Spline Sans Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent);
+    }
+    .letter-table-scroll {
+      overflow-x: auto; border: 1px solid var(--line-2); background: var(--panel);
+    }
+    .letter-table table {
+      width: 100%; min-width: 560px; border-collapse: collapse;
+      font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif; font-size: 13px;
+    }
+    .letter-table th, .letter-table td {
+      padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top;
+    }
+    .letter-table th:first-child, .letter-table td:first-child { text-align: left; color: var(--ink); }
+    .letter-table th {
+      font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); background: var(--panel-soft);
+    }
+    .letter-table tbody tr:last-child td { border-bottom: 0; }
     .letter-page, .letter-meta {
       font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.08em;
       text-transform: uppercase; color: var(--muted);
     }
     .letter-rule { height: 1px; margin: 30px 0; background: var(--line-2); }
 
-    .focus-quote {
-      margin: 0 0 38px; padding-left: 22px; border-left: 2px solid var(--accent);
-      font-family: "Newsreader", serif; font-style: italic; font-size: 26px; line-height: 1.4; color: var(--ink);
+    .simple-mode { display: grid; gap: 28px; }
+    .simple-eyebrow {
+      margin: 0; font-family: "Spline Sans Mono", monospace;
+      font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
     }
-    .focus-quote::before { content: "\201C"; }
-    .focus-quote::after { content: "\201D"; }
-
-    .focus-passage .passage-section-title { margin: 0 0 22px; font-size: 11px; }
-    .focus-passage p { margin: 0 0 22px; font-family: "Newsreader", serif; font-size: 21px; line-height: 1.8; color: var(--ink); }
-    .focus-passage ul { margin: 0 0 24px; padding-left: 26px; }
-    .focus-passage li { margin: 0 0 14px; font-family: "Newsreader", serif; font-size: 21px; line-height: 1.75; color: var(--ink); }
-    .focus-passage li::marker { color: var(--line-2); }
-    .focus-passage .page-marker { margin: 24px 0; }
-    .focus-passage .passage-section { border-bottom-color: var(--line); margin-bottom: 32px; padding-bottom: 28px; }
+    .simple-mode h2 {
+      margin: -12px 0 0; max-width: 18ch;
+      font-size: 48px; line-height: 1.02; letter-spacing: -0.02em; color: var(--ink);
+    }
+    .simple-summary {
+      margin: 0; font-family: "Newsreader", serif;
+      font-size: 29px; line-height: 1.42; letter-spacing: -0.01em; color: var(--ink);
+    }
+    .inline-source-toggle {
+      justify-self: start; height: 38px; padding: 0 15px; border: 1px solid var(--ink);
+      background: var(--ink); color: var(--paper); cursor: pointer;
+      font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.12em;
+      text-transform: uppercase; transition: border-color .16s ease, background .16s ease, color .16s ease;
+    }
+    .inline-source-toggle:hover { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+    .simple-source-cue {
+      margin: 4px 0 0; padding: 16px 18px; border: 1px solid var(--line-2);
+      border-left: 3px solid var(--accent); background: var(--panel);
+    }
+    .simple-source-cue span {
+      display: block; margin-bottom: 8px; font-family: "Spline Sans Mono", monospace;
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    }
+    .simple-source-cue p {
+      margin: 0; font-family: "Newsreader", serif; font-style: italic;
+      font-size: 22px; line-height: 1.45; color: var(--ink);
+    }
+    .simple-source-cue p::before { content: "\201C"; }
+    .simple-source-cue p::after { content: "\201D"; }
 
     .focus-notes { margin-top: 8px; padding-top: 40px; border-top: 1px solid var(--line-2); display: grid; gap: 26px; }
     .focus-notes .source-ref { font-family: "Spline Sans Mono", monospace; font-size: 10.5px; letter-spacing: 0.06em; color: var(--muted); }
@@ -222,7 +270,6 @@
     .f-takeaway { padding: 16px 18px; border: 1px solid var(--line-2); border-left: 3px solid var(--accent); background: var(--accent-tint); }
     .f-takeaway .f-label { color: var(--accent); }
     .f-takeaway p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
-    .f-tags { display: flex; gap: 7px; flex-wrap: wrap; }
     body.focus-open { overflow: hidden; }
 
     /* ---------- Reveal ---------- */
@@ -231,32 +278,39 @@
     @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } html { scroll-behavior: auto; } .focus-overlay, .focus-progress, .passage { transition: none; } }
 
     /* ---------- Responsive ---------- */
-    @media (max-width: 760px) { .use-grid { grid-template-columns: 1fr; gap: 26px; padding: 28px 0 44px; } }
     @media (max-width: 900px) {
       .focus-main { display: block; overflow: hidden; }
       .focus-scroll { height: 100%; }
+      .focus-side-nav { width: 40px; height: 52px; top: auto; bottom: 22px; transform: none; }
+      .focus-side-nav.prev { left: 18px; }
+      .focus-side-nav.next, .focus-overlay.letter-open .focus-side-nav.next { right: 18px; }
+      .focus-overlay.letter-open .focus-side-nav { display: none; }
       .letter-resizer { display: none; }
       .letter-pane { position: absolute; inset: 0; z-index: 2; border-left: 0; transform: translateX(100%); }
       .focus-overlay.letter-open .letter-pane { transform: none; }
     }
     @media (max-width: 600px) {
       .hero-top-inner { padding: 12px 18px; }
-      .hero-main { padding: 44px 18px 30px; }
-      .hero-use-inner { padding: 0 18px; }
+      .hero-title { max-width: 24ch; }
       .reading { padding: 44px 20px 90px; }
       .p-title { font-size: 23px; }
       .p-quote { font-size: 20px; }
       .focus-bar-inner { padding: 13px 18px; }
+      .focus-home span { display: none; }
       .focus-actions { gap: 7px; }
       .focus-title { font-size: 16px; white-space: normal; }
       .focus-counter { display: none; }
       .letter-toggle { max-width: 132px; padding: 0 10px; overflow: hidden; text-overflow: ellipsis; }
       .focus-reader { padding: 40px 20px 90px; }
-      .focus-quote { font-size: 22px; }
-      .focus-passage p, .focus-passage li { font-size: 19px; line-height: 1.75; }
+      .simple-mode h2 { font-size: 34px; }
+      .simple-summary { font-size: 23px; line-height: 1.48; }
+      .inline-source-toggle { height: 36px; padding: 0 13px; }
+      .simple-source-cue p { font-size: 20px; }
       .letter-head { padding: 16px 16px 14px; }
       .letter-body { padding: 28px 20px 78px; }
       .letter-document p, .letter-document li { font-size: 19px; line-height: 1.72; }
+      .letter-table table { font-size: 12px; }
+      .letter-table th, .letter-table td { padding: 9px 10px; }
       .letter-block.is-target { margin-left: -12px; margin-right: -8px; padding: 6px 8px 6px 9px; }
     }
   </style>
@@ -267,22 +321,7 @@
       <div class="hero-top">
         <div class="hero-top-inner">
           <a href="bezos_concepts_explorer.html">&larr; Ideas Hub</a>
-          <span>Deep Dive <span class="dot">&middot;</span> Standards and craft</span>
-        </div>
-      </div>
-      <div class="hero-main reveal">
-        <p class="eyebrow">Standards and craft</p>
-        <h1>High Standards and Craft</h1>
-        <div class="hero-rule"></div>
-        <p class="hero-copy">High standards mean knowing what good looks like, knowing the true scope of the work, and caring about invisible quality.</p>
-      </div>
-      <div class="hero-use reveal">
-        <div class="hero-use-inner">
-          <div class="use-grid">
-            <div class="use-col"><span class="use-label">For life</span><p>Use it for writing, health, school, work, and relationships by asking whether you understand the real standard and the effort required.</p></div>
-            <div class="use-col"><span class="use-label">For business</span><p>Use it to build teams where quality is teachable, visible, and protected even when the work is behind the scenes.</p></div>
-            <div class="use-col"><span class="use-label">Merges</span><div class="chips" id="childChips"></div></div>
-          </div>
+          <span class="hero-title">High Standards and Craft</span>
         </div>
       </div>
     </header>
@@ -297,22 +336,21 @@
     <div class="focus-progress" id="focusProgress"></div>
     <div class="focus-bar">
       <div class="focus-bar-inner">
+        <a class="focus-home" href="bezos_concepts_explorer.html" aria-label="Back to ideas hub">&larr; <span>Ideas Hub</span></a>
         <div class="focus-meta">
           <span class="focus-year" id="focusYear"></span>
           <span class="focus-title" id="focusTitle"></span>
         </div>
         <div class="focus-actions">
           <span class="focus-counter" id="focusCounter"></span>
-          <div class="focus-nav">
-            <button type="button" id="focusPrev" aria-label="Previous passage">&lsaquo;</button>
-            <button type="button" id="focusNext" aria-label="Next passage">&rsaquo;</button>
-          </div>
-          <button type="button" class="letter-toggle" id="letterToggle" aria-expanded="false" aria-controls="letterPane">Read In Letter</button>
+          <button type="button" class="letter-toggle" id="letterToggle" aria-expanded="false" aria-controls="letterPane">Read Source</button>
           <button type="button" class="focus-close" id="focusClose"><span class="x">&#10005;</span> Close <span aria-hidden="true">&middot; Esc</span></button>
         </div>
       </div>
     </div>
     <div class="focus-main" id="focusMain">
+      <button type="button" class="focus-side-nav prev" id="focusPrev" aria-label="Previous passage">&lsaquo;</button>
+      <button type="button" class="focus-side-nav next" id="focusNext" aria-label="Next passage">&rsaquo;</button>
       <div class="focus-scroll" id="focusScroll">
         <article class="focus-reader" id="focusReader"></article>
       </div>
@@ -363,6 +401,9 @@
             "why": "Bezos rejects the idea that high standards are only innate. Exposure to a high-standards team changes what people recognize.",
             "support": "The section also explains why articulating principles can accelerate the learning.",
             "takeaway": "Raise standards by making quality visible and contagious.",
+            "simple": {
+                "summary": "You do not have to be born with high standards. People naturally learn to expect more when they work around others who care about quality. Good habits spread easily when a team shows what great work looks like."
+            },
             "tags": [
                 "teachable",
                 "culture",
@@ -385,6 +426,9 @@
             "why": "A person can have excellent standards in one domain and weak standards in another. Each craft has to be learned.",
             "support": "Bezos uses his own operational-process learning as the example.",
             "takeaway": "Do not assume competence in one area means standards in another.",
+            "simple": {
+                "summary": "Being good at one thing does not make you good at everything. You have to learn high standards for every new skill. Knowing this keeps you humble."
+            },
             "tags": [
                 "domain specific",
                 "learning",
@@ -407,6 +451,9 @@
             "why": "The framework is simple: recognize quality and understand how hard the work should be.",
             "support": "The handstand story shows how wrong expectations about time can destroy high standards even when motivation is high.",
             "takeaway": "Low standards often come from underestimating the real scope.",
+            "simple": {
+                "summary": "To do great work, you must first know what great work looks like. Then, you need to know how much time and effort it will take. People often quit because they think hard things should be easy."
+            },
             "tags": [
                 "recognition",
                 "scope",
@@ -429,6 +476,9 @@
             "why": "The memo example translates the handstand idea into business craft. A good memo is not produced in a few spare hours.",
             "support": "This is useful because it shows invisible work in a knowledge-work setting.",
             "takeaway": "If you want excellent output, budget the real work behind it.",
+            "simple": {
+                "summary": "Great writing takes time and many drafts. You cannot write a perfect document in just a few hours. It requires writing, getting feedback, and editing again."
+            },
             "tags": [
                 "memos",
                 "writing",
@@ -451,6 +501,9 @@
             "why": "A leader does not need to perform every role personally, but they must recognize quality and teach realistic scope.",
             "support": "The passage protects teams from vague taste and unrealistic demands by tying leadership to standards and scope.",
             "takeaway": "Leadership requires knowing enough to judge quality and coach the work.",
+            "simple": {
+                "summary": "You do not need to be an expert at every task your team does. However, you must know what excellent work looks like. You also need to teach your team how much effort that work requires."
+            },
             "tags": [
                 "leadership",
                 "coaching",
@@ -469,10 +522,13 @@
                     219
                 ]
             ],
-            "quote": "invisible but crucial work",
+            "quote": "work that no one sees",
             "why": "High standards protect work no customer sees directly, such as defect prevention and unseen service operations.",
             "support": "The passage also connects high standards to recruiting, retention, and pride in professionalism.",
             "takeaway": "A high-standards culture makes invisible excellence worth doing.",
+            "simple": {
+                "summary": "A culture of high standards protects the important work that nobody sees. People do the right thing even when no one is watching. Doing this work well brings pride and builds better products."
+            },
             "tags": [
                 "invisible work",
                 "professionalism",
@@ -495,6 +551,9 @@
             "why": "The leadership principle makes high standards a role expectation, not just an aesthetic preference.",
             "support": "This short passage is useful as the operating version of the 2017 framework.",
             "takeaway": "High standards become real when leaders are expected to raise the bar repeatedly.",
+            "simple": {
+                "summary": "Leaders must keep pushing for better results. Their standards should be so high that other people think they are unreasonable. This helps the whole team reach new levels."
+            },
             "tags": [
                 "leadership principle",
                 "bar raising",
@@ -506,7 +565,6 @@
     const passages = DATA.passages;
 
     const cardsEl = document.getElementById("cards");
-    const childChips = document.getElementById("childChips");
     const readingLead = document.getElementById("readingLead");
 
     const overlay = document.getElementById("focusOverlay");
@@ -530,6 +588,8 @@
     let focusIndex = 0;
     let focusToken = 0;
     let letterToken = 0;
+    let focusHistoryActive = false;
+    let suppressPopClose = false;
 
     const mdCache = {};
     const htmlCache = {};
@@ -541,6 +601,71 @@
     }
     function sourceName(path) { return path.split("/").pop(); }
     function endsBlock(line) { return /[.!?:]$/.test(line) || /[.!?][”"]$/.test(line); }
+
+    const knownLetterTables = [
+      {
+        start: 51,
+        end: 161,
+        title: "Earnings (in thousands)",
+        columns: ["", "Year 1", "Year 2", "Year 3", "Year 4"],
+        rows: [
+          ["Sales", "$100,000", "$200,000", "$400,000", "$800,000"],
+          ["Units sold", "100", "200", "400", "800"],
+          ["Growth", "N/A", "100%", "100%", "100%"],
+          ["Gross profit", "55,000", "110,000", "220,000", "440,000"],
+          ["Gross margin", "55%", "55%", "55%", "55%"],
+          ["Depreciation", "40,000", "80,000", "160,000", "320,000"],
+          ["Labor & other costs", "5,000", "10,000", "20,000", "40,000"],
+          ["Earnings", "$10,000", "$20,000", "$40,000", "$80,000"],
+          ["Margin", "10%", "10%", "10%", "10%"],
+          ["Growth", "N/A", "100%", "100%", "100%"]
+        ]
+      },
+      {
+        start: 173,
+        end: 249,
+        title: "Cash flows (in thousands)",
+        columns: ["", "Year 1", "Year 2", "Year 3", "Year 4"],
+        rows: [
+          ["Earnings", "$10,000", "$20,000", "$40,000", "$80,000"],
+          ["Depreciation", "40,000", "80,000", "160,000", "320,000"],
+          ["Working capital", "—", "—", "—", "—"],
+          ["Operating Cash Flow", "50,000", "100,000", "200,000", "400,000"],
+          ["Capital expenditures", "160,000", "160,000", "320,000", "640,000"],
+          ["Free Cash Flow", "$(110,000)", "$(60,000)", "$(120,000)", "$(240,000)"]
+        ]
+      },
+      {
+        start: 271,
+        end: 317,
+        title: "Sales and earnings growth scenarios (in thousands)",
+        columns: [
+          "Year 2, 3 and 4 Sales and Earnings Growth Rate",
+          "Machines in Year 4",
+          "Year 1 to 4 Cumulative Earnings",
+          "Year 1 to 4 Cumulative Free Cash Flow"
+        ],
+        rows: [
+          ["0%, 0%, 0%", "1", "$40,000", "$40,000"],
+          ["100%, 50%, 33%", "4", "$100,000", "$(140,000)"],
+          ["100%, 100%, 100%", "8", "$150,000", "$(530,000)"]
+        ]
+      }
+    ];
+
+    function knownTableAt(lineNumber, tables = knownLetterTables) {
+      return tables.find((table) => table.start === lineNumber);
+    }
+
+    function isKnownTableLine(lineNumber, tables = knownLetterTables) {
+      return tables.some((table) => lineNumber >= table.start && lineNumber <= table.end);
+    }
+
+    function renderLetterTable(block, attrs = "") {
+      const head = `<thead><tr>${block.columns.map((column) => `<th>${escapeHtml(column)}</th>`).join("")}</tr></thead>`;
+      const body = `<tbody>${block.rows.map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`).join("")}</tbody>`;
+      return `<section ${attrs}><h4 class="letter-table-title">${escapeHtml(block.title)}</h4><div class="letter-table-scroll"><table>${head}${body}</table></div></section>`;
+    }
 
     function formatPassageLines(rawLines) {
       const blocks = [];
@@ -595,6 +720,7 @@
     function renderLetterBlocks(markdown) {
       const blocks = [];
       const lines = markdown.split(/\r?\n/);
+      const activeTables = /^# 2004 Amazon Shareholder Letter/m.test(markdown) ? knownLetterTables : [];
       let paragraph = [], paragraphStart = 0, paragraphEnd = 0;
       let listItems = [], listItem = [], listStart = 0, listEnd = 0;
 
@@ -624,6 +750,13 @@
         const lineNumber = index + 1;
         const text = line.trim();
         if (!text) return;
+        const knownTable = knownTableAt(lineNumber, activeTables);
+        if (knownTable) {
+          flushParagraph(); flushList();
+          blocks.push({ type: "table", start: knownTable.start, end: knownTable.end, title: knownTable.title, columns: knownTable.columns, rows: knownTable.rows });
+          return;
+        }
+        if (isKnownTableLine(lineNumber, activeTables)) return;
         if (/^(\*\s*){2,}$/.test(text)) {
           flushParagraph(); flushList();
           blocks.push({ type: "rule", start: lineNumber, end: lineNumber });
@@ -675,6 +808,7 @@
         if (block.type === "page") return `<div ${attrs}>${escapeHtml(block.text)}</div>`;
         if (block.type === "meta") return `<p ${attrs}>${escapeHtml(block.text)}</p>`;
         if (block.type === "rule") return `<div ${attrs}></div>`;
+        if (block.type === "table") return renderLetterTable(block, attrs);
         if (block.type === "list") return `<ul ${attrs}>${block.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
         return `<p ${attrs}>${escapeHtml(block.text)}</p>`;
       }).join("");
@@ -793,43 +927,53 @@
       const item = passages[focusIndex];
       if (!item) return;
       const token = ++focusToken;
-      focusYear.textContent = item.year;
-      focusTitle.textContent = item.title;
+      const simple = item.simple || {};
+      const summary = simple.summary || item.why;
+      focusYear.textContent = "";
+      focusTitle.textContent = DATA.idea.title;
       focusCounter.textContent = `${String(focusIndex + 1).padStart(2, "0")} / ${String(passages.length).padStart(2, "0")}`;
       focusPrev.disabled = focusIndex <= 0;
       focusNext.disabled = focusIndex >= passages.length - 1;
-      const tags = item.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
       focusReader.innerHTML = `
-        <blockquote class="focus-quote">${escapeHtml(item.quote)}</blockquote>
-        <div class="focus-passage" id="focusPassage"><p class="passage-error" style="color:var(--muted)">Loading exact passage&hellip;</p></div>
-        <div class="focus-notes">
-          <p class="source-ref">Source &middot; <a href="${escapeHtml(item.source)}">${sourceName(item.source)}</a> &middot; ${escapeHtml(item.range)}</p>
-          <div class="f-note"><span class="f-label">Why it matters</span><p>${escapeHtml(item.why)}</p></div>
-          <div class="f-note"><span class="f-label">What to notice</span><p>${escapeHtml(item.support)}</p></div>
-          <div class="f-takeaway"><span class="f-label">Main takeaway</span><p>${escapeHtml(item.takeaway)}</p></div>
-          <div class="f-tags">${tags}</div>
-        </div>`;
+        <section class="simple-mode">
+          <p class="simple-eyebrow">Simple version</p>
+          <h2>${escapeHtml(item.title)}</h2>
+          <p class="simple-summary">${escapeHtml(summary)}</p>
+          <button type="button" class="inline-source-toggle" data-source-toggle>Read Source</button>
+          <div class="simple-source-cue"><span>Source phrase</span><p>${escapeHtml(item.quote)}</p></div>
+          <div class="focus-notes">
+            <p class="source-ref">Source &middot; <a href="${escapeHtml(item.source)}">${sourceName(item.source)}</a> &middot; ${escapeHtml(item.range)}</p>
+          </div>
+        </section>`;
       focusScroll.scrollTop = 0;
       focusProgress.style.width = "0%";
-      const html = await getPassageHtml(focusIndex);
       if (token === focusToken) {
-        const el = focusReader.querySelector("#focusPassage");
-        if (el) el.innerHTML = html;
         if (overlay.classList.contains("letter-open")) openLetterContext();
       }
     }
-    function openFocus(index) {
+    function openFocus(index, pushHistory = true) {
       focusIndex = index;
       closeLetterContext();
       renderFocus();
       overlay.classList.add("is-open");
       document.body.classList.add("focus-open");
+      if (pushHistory && !focusHistoryActive) {
+        window.history.pushState({ focusReader: true }, "", window.location.href);
+        focusHistoryActive = true;
+      }
       focusClose.focus();
     }
-    function closeFocus() {
+    function closeFocus(syncHistory = true) {
       closeLetterContext();
       overlay.classList.remove("is-open");
       document.body.classList.remove("focus-open");
+      if (focusHistoryActive) {
+        focusHistoryActive = false;
+        if (syncHistory) {
+          suppressPopClose = true;
+          window.history.back();
+        }
+      }
     }
     function stepFocus(delta) {
       const next = focusIndex + delta;
@@ -838,7 +982,10 @@
       renderFocus();
     }
 
-    focusClose.addEventListener("click", closeFocus);
+    focusClose.addEventListener("click", () => closeFocus(true));
+    focusReader.addEventListener("click", (event) => {
+      if (event.target.closest("[data-source-toggle]")) toggleLetterContext();
+    });
     letterToggle.addEventListener("click", toggleLetterContext);
     letterClose.addEventListener("click", closeLetterContext);
     letterResizer.addEventListener("pointerdown", (event) => {
@@ -877,14 +1024,20 @@
       if (!overlay.classList.contains("is-open")) return;
       if (event.key === "Escape") {
         if (overlay.classList.contains("letter-open")) closeLetterContext();
-        else closeFocus();
+        else closeFocus(true);
       }
       else if (event.key === "ArrowLeft") stepFocus(-1);
       else if (event.key === "ArrowRight") stepFocus(1);
     });
+    window.addEventListener("popstate", () => {
+      if (suppressPopClose) {
+        suppressPopClose = false;
+        return;
+      }
+      if (overlay.classList.contains("is-open")) closeFocus(false);
+    });
 
     function init() {
-      childChips.innerHTML = DATA.idea.children.map((child) => `<span class="chip">${escapeHtml(child)}</span>`).join("");
       const years = passages.map((p) => p.year);
       const span = years.length ? `${Math.min(...years)}–${Math.max(...years)}` : "";
       readingLead.textContent = `${passages.length} passages · ${span}`;
