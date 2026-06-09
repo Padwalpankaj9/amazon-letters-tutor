@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23211B14'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-style='italic' font-size='40' fill='%23F3EFE6' text-anchor='middle'%3E1%3C/text%3E%3C/svg%3E">
   <title>Dreamy Business Filter — The Bezos Letters</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,27 +44,23 @@
     button { font: inherit; color: inherit; }
 
     /* ---------- Lean page bar ---------- */
-    .hero { background: var(--ink); color: var(--cream); position: relative; overflow: hidden; }
-    .hero::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-    .hero-top { position: relative; z-index: 1; border-bottom: 1px solid var(--cream-line); }
+    .hero { color: var(--ink); }
+    .hero-top { border-bottom: 1px solid var(--line); }
     .hero-top-inner {
       max-width: 1080px; margin: 0 auto; padding: 14px 32px;
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream-soft);
+      font-family: "Spline Sans Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
     }
-    .hero-top-inner a { text-decoration: none; color: var(--cream); }
-    .hero-top-inner a:hover { color: #fff; }
+    .hero-top-inner a { text-decoration: none; color: var(--ink-soft); }
+    .hero-top-inner a:hover { color: var(--accent); }
     .hero-top-inner .dot { color: var(--accent); }
     .hero-title {
       max-width: 46ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      color: var(--cream); text-align: right;
+      color: var(--ink); text-align: right;
     }
 
     /* ---------- Reading column (single, calm) ---------- */
-    .reading { max-width: 660px; margin: 0 auto; padding: 54px 28px 120px; }
+    .reading { max-width: 660px; margin: 0 auto; padding: 64px 28px 120px; }
     .reading-lead {
       margin: 0 0 12px; font-family: "Spline Sans Mono", monospace;
       font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
