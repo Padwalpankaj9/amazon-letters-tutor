@@ -198,12 +198,6 @@
     .card-meta {
       font-family: "Spline Sans Mono", monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
     }
-    .card-merged {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: "Spline Sans Mono", monospace; font-size: 10px; color: var(--muted);
-    }
-    .card-merged::before { content: ""; width: 5px; height: 5px; background: currentColor; border-radius: 50%; }
-
     .accent-rule { width: 34px; height: 2px; margin: 13px 0 16px; background: var(--accent); }
     .block-label {
       display: block; margin-bottom: 8px;
@@ -686,7 +680,6 @@
           <p class="card-essence">${concept.plain}</p>
           <div class="card-foot">
             <span class="card-meta">${typeLabel(concept.type)} · ${yearSpan(concept)}</span>
-            <span class="card-merged">${concept.children.length} merged</span>
           </div>
         </a>
       `).join("");
